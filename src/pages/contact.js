@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Header from '../components/header'
-
+import ContactForm from '../components/contact-form'
 
 const ContactPage = ({ data }) => (
   <div>
@@ -14,7 +14,7 @@ const ContactPage = ({ data }) => (
       instagram={data.site.siteMetadata.instagram}
     />
     <h1>Contact Chris</h1>
-    <p>Welcome to page 2</p>
+    <ContactForm />
     <Link to="/">Go back to the homepage to view and order prints.</Link>
   </div>
 )

@@ -8,6 +8,8 @@
     "gatsby": "^1.9.153",
     "gatsby-link": "^1.6.34",
     "gatsby-plugin-react-helmet": "^2.0.3",
+    "react-form-with-constraints": "^0.7.0",
+    "react-form-with-constraints-tools": "^0.7.0",
     "react-helmet": "^5.2.0"
   },
   "keywords": [

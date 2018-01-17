@@ -2,6 +2,10 @@
 # yarn lockfile v1
 
 
+"@types/prop-types@latest":
+  version "15.5.2"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.5.2.tgz#3c6b8dceb2906cc87fe4358e809f9d20c8d59be1"
+
 "@zeit/check-updates@1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@zeit/check-updates/-/check-updates-1.0.5.tgz#3ac40afe270a0cc646a279b629698a77ad4543c6"
@@ -6183,7 +6187,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8:
+prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@latest:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
@@ -6364,6 +6368,17 @@ react-dom@^15.6.0:
 react-error-overlay@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-3.0.0.tgz#c2bc8f4d91f1375b3dad6d75265d51cd5eeaf655"
+
+react-form-with-constraints-tools@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-form-with-constraints-tools/-/react-form-with-constraints-tools-0.7.0.tgz#faada005cebc2d30f9aa05629a6bf05d8fda688b"
+
+react-form-with-constraints@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/react-form-with-constraints/-/react-form-with-constraints-0.7.0.tgz#5f3b441b9233239fcc4d490d90428bf86eabc6d8"
+  dependencies:
+    "@types/prop-types" latest
+    prop-types latest
 
 react-helmet@^5.2.0:
   version "5.2.0"
