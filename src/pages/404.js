@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'gatsby-link'
 import Header from '../components/header'
 
 const NotFoundPage = ({ data }) => (
@@ -13,6 +14,7 @@ const NotFoundPage = ({ data }) => (
     />
     <h1>NOT FOUND</h1>
     <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+    <Link to="/">Go back to the homepage to view and order prints.</Link>
   </div>
 )
 

@@ -24,6 +24,8 @@ const Header = props => (
           Chris Hill
         </Link>
       </h1>
+      <Link to="/about/">about</Link>
+      <Link to="/contact/">contact</Link>
       <h2>Bristol Photography</h2>
     </div>
   </div>

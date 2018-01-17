@@ -12,9 +12,9 @@ const ConfirmationPage = ({ data }) => (
       fb={data.site.siteMetadata.fb}
       instagram={data.site.siteMetadata.instagram}
     />
-    <h1>Hi from the second page</h1>
-    <p>Welcome to page 2</p>
-    <Link to="/">Go back to the homepage</Link>
+    <h1>Thankyou</h1>
+    <p>Your order has been received - we'll email a confirmation.</p>
+    <p>Share the love:</p>
   </div>
 )
 
