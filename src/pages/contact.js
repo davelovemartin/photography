@@ -13,9 +13,9 @@ const ContactPage = ({ data }) => (
       fb={data.site.siteMetadata.fb}
       instagram={data.site.siteMetadata.instagram}
     />
-    <h1>Hi from the second page</h1>
+    <h1>Contact Chris</h1>
     <p>Welcome to page 2</p>
-    <Link to="/">Go back to the homepage</Link>
+    <Link to="/">Go back to the homepage to view and order prints.</Link>
   </div>
 )
 

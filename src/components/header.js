@@ -21,9 +21,10 @@ const Header = props => (
             textDecoration: 'none',
           }}
         >
-          Gatsby
+          Chris Hill
         </Link>
       </h1>
+      <h2>Bristol Photography</h2>
     </div>
   </div>
 )
