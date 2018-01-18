@@ -1,5 +1,6 @@
 import React from 'react'
 import CustomHelmet from '../components/helmet'
+import Img from 'gatsby-image'
 
 class Product extends React.Component {
   render () {
@@ -16,6 +17,12 @@ class Product extends React.Component {
         <header>
             <h1>{this.props.data.contentfulProduct.title}</h1>
         </header>
+        <article>
+            <Img 
+              sizes={this.props.data.contentfulProduct.picture.sizes}
+              alt={this.props.data.contentfulProduct.picture.description}
+            />
+        </article>
       </div>
     )
   }
@@ -42,6 +49,11 @@ export const query = graphql`
           content
         }
       }
+      picture {
+        sizes(maxWidth: 640) {
+          ...GatsbyContentfulSizes
+        }
+      } 
     }
   }
 `
