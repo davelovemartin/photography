@@ -45,9 +45,9 @@ class Product extends React.Component {
             onChange={this.handleChangeSize}
             role='radiogroup'
           >
-            <Radio value='a3' aria-checked={'false'}/>
-            <Radio value='a2' aria-checked={'false'}/>
-            <Radio value='digitalDownload' aria-checked={'false'}/>
+            <Radio value='a3' aria-checked={'false'} />a3
+            <Radio value='a2' aria-checked={'false'} />a2
+            <Radio value='digitalDownload' aria-checked={'false'} />digitalDownload
           </RadioGroup>
           <RadioGroup
             name='frames'
@@ -55,12 +55,13 @@ class Product extends React.Component {
             onChange={this.handleChangeFrame}
             role='radiogroup'
           >
-            <Radio value='noframe' aria-checked={'false'}/>
-            <Radio value='budget' aria-checked={'false'}/>
-            <Radio value='premium' aria-checked={'false'}/>
+            <Radio value='noframe' aria-checked={'false'} />noframe
+            <Radio value='budget' aria-checked={'false'} />budget
+            <Radio value='premium' aria-checked={'false'} />premium
           </RadioGroup>
           <p>Error Messages</p>
-          <p>Description of items selected</p>
+          <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <strong>£16</strong></p>
+          <p>The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <strong>£18</strong></p>
           <h2>Total: </h2>
           <button />
         </div>
@@ -70,6 +71,54 @@ class Product extends React.Component {
 }
 
 export default Product
+
+const dataSize = [
+  {
+    id: 'a2',
+    title: 'A2 Print',
+    description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
+    price: 16
+  },
+  {
+    id: 'a3',
+    title: 'A3 Print',
+    description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
+    price: 10
+  },
+  {
+    id: 'digitalDownload',
+    title: 'Digital Download',
+    description: 'A full resolution jpg file and licence for X.',
+    price: 0
+  }
+]
+
+const dataFrame = [
+  {
+    id: 'noframe',
+    title: 'No Frame',
+    description: 'Just the print',
+    price: 0
+  },
+  {
+    id: 'budget',
+    title: 'Spacer Frame',
+    description: 'Contemporary hand-stained finish made from solid ash, delivered fully strung ready for hanging',
+    price: {
+      a2: 11,
+      a3: 8
+    }
+  },
+  {
+    id: 'premium',
+    title: '',
+    description: 'The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge.',
+    price: {
+      a2: 23.5,
+      a3: 18
+    }
+  }
+]
 
 export const query = graphql`
   query ProductQuery($title: String!) {
