@@ -1,14 +1,28 @@
 import React from 'react'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import Img from 'gatsby-image'
+import styled from 'styled-components'
 import {RadioGroup, Radio} from 'react-radio-group' 
+import { Flex, Box } from 'grid-styled'
+
+const RadioButtonGroup = styled.div`
+  text-align: center;
+  height: 9rem;
+  font-size: 0.75rem;
+  line-height: 2;
+  &:hover {
+
+  }
+`
 
 class Product extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
       selectedSize: false,
-      selectedFrame: false
+      selectedFrame: false,
+      isLandscape: false
     }
     this.handleChangeFrame = this.handleChangeFrame.bind(this)
     this.handleChangeSize = this.handleChangeSize.bind(this)
@@ -20,6 +34,10 @@ class Product extends React.Component {
 
   }
   render () {
+    const aR = this.props.data.contentfulProduct.picture.resize.aspectRatio
+    if (aR > 1) {
+      this.setState = { isLandscape: true}
+    }
     return (
       <div>
         <Header
@@ -30,41 +48,94 @@ class Product extends React.Component {
             fb={this.props.data.site.siteMetadata.fb}
             instagram={this.props.data.site.siteMetadata.instagram}
         />
-        <div>
-          <Img 
-            sizes={this.props.data.contentfulProduct.picture.sizes}
-            alt={this.props.data.contentfulProduct.picture.description}
-          />
-        </div>
-        <div>
-          <h1>Title</h1>
-          <p>description</p>
-          <RadioGroup
-            name='sizes'
-            selectedValue={this.state.selectedSize}
-            onChange={this.handleChangeSize}
-            role='radiogroup'
+        <Flex>
+            <Box
+              p={2}
+            >
+              <h2>{this.props.data.contentfulProduct.title}</h2>
+            </Box>
+        </Flex>
+        <Flex wrap>
+            <Box
+                width={[1, 1, '50rem']}
+                p={2}
+            >
+              <Box mb={5}>
+                <Img 
+                    sizes={this.props.data.contentfulProduct.picture.sizes}
+                    alt={this.props.data.contentfulProduct.picture.description}
+                />
+              </Box>
+              <p>{this.props.data.contentfulProduct.description.description}</p>
+          </Box>
+          <Box
+              width={[1, 1, '24rem']}
+              p={2}
           >
-            <Radio value='a3' aria-checked={'false'} />a3
-            <Radio value='a2' aria-checked={'false'} />a2
-            <Radio value='digitalDownload' aria-checked={'false'} />digitalDownload
-          </RadioGroup>
-          <RadioGroup
-            name='frames'
-            selectedValue={this.state.selectedFrame}
-            onChange={this.handleChangeFrame}
-            role='radiogroup'
-          >
-            <Radio value='noframe' aria-checked={'false'} />noframe
-            <Radio value='budget' aria-checked={'false'} />budget
-            <Radio value='premium' aria-checked={'false'} />premium
-          </RadioGroup>
-          <p>Error Messages</p>
-          <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <strong>£16</strong></p>
-          <p>The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <strong>£18</strong></p>
-          <h2>Total: </h2>
-          <button />
-        </div>
+            <RadioGroup 
+              name='sizes'
+              selectedValue={this.state.selectedSize}
+              onChange={this.handleChangeSize}
+              role='radiogroup'
+            >
+              <p>1. Choose a size:</p>
+              <Flex height={'9rem'} justify='space-between' mb={2}>
+                <RadioButtonGroup value='a3' aria-checked={'false'}>
+                  <label>A3</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+                <RadioButtonGroup value='a2' aria-checked={'false'}>
+                  <label>A2</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+                <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
+                  <label>Download</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+              </Flex>
+            </RadioGroup>
+            <RadioGroup
+              name='frames'
+              selectedValue={this.state.selectedFrame}
+              onChange={this.handleChangeFrame}
+              role='radiogroup'
+            >
+              <p>2. Choose a frame:</p>
+              <Flex height={'9rem'} justify='space-between' mb={2}>
+                <RadioButtonGroup value='a3' aria-checked={'false'}>
+                  <label>No Frame</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+                <RadioButtonGroup value='a2' aria-checked={'false'}>
+                  <label>Standard</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+                <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
+                  <label>Delux</label>
+                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                </RadioButtonGroup>
+              </Flex>
+            </RadioGroup>
+            <p><b>Room left for error messages</b></p>
+            <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <strong>£16</strong></p>
+            <br />
+            <p>The Surface frame provides a subtle, contemporary surround. The black frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <strong>£18</strong></p>
+            <Flex mt={2}>
+              <Box>
+                <h2>Total: <strong>£34</strong></h2>
+              </Box>
+              <Box ml='auto' pt={1}>
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                  <input type="hidden" name="cmd" value="_s-xclick" />
+                  <input type="hidden" name="hosted_button_id" value="XBVNWNYL9W3NL" />
+                  <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" />
+                  <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+                </form>
+              </Box>
+            </Flex>
+          </Box>
+        </Flex>
+        <Footer />
       </div>
     )
   }
@@ -122,6 +193,13 @@ const dataFrame = [
 
 export const query = graphql`
   query ProductQuery($title: String!) {
+    file(relativePath: { eq: "placeholder.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        }
+      }
+    }
     site {
       siteMetadata {
         title,
@@ -135,13 +213,15 @@ export const query = graphql`
     contentfulProduct(title: { eq: $title } ) {
       title
       description {
-        internal {
-          content
-        }
+        description
       }
       picture {
-        sizes(maxWidth: 640) {
+        sizes(maxWidth: 800) {
           ...GatsbyContentfulSizes
+        }
+        resize (width: 800) {
+          height
+          aspectRatio
         }
       } 
     }

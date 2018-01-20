@@ -1,6 +1,15 @@
 import React from 'react'
-import Link from 'gatsby-link'
 import CustomHelmet from '../components/helmet'
+import NavLink from '../components/nav-link'
+import styled from 'styled-components'
+import { Flex } from 'grid-styled'
+
+const Title = styled.h1`
+  display: inline-block;
+  margin-bottom: 1rem;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+`
 
 const Header = props => (
   <div>
@@ -12,22 +21,18 @@ const Header = props => (
         fb={props.fb}
         instagram={props.instagram}
     />
-    <div>
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: 'black',
-            textDecoration: 'none',
-          }}
-        >
-          Chris Hill
-        </Link>
-      </h1>
-      <Link to="/about/">about</Link>
-      <Link to="/contact/">contact</Link>
-      <h2>Bristol Photography</h2>
-    </div>
+    <Flex
+      align={'flex-end'}
+      direction={'row'}
+      pb={'8rem'}
+      pt={2}
+      px={2}
+    >
+      <Title>
+        <NavLink to="/">Chris Hill</NavLink>
+      </Title>
+        <NavLink mb={2} ml="auto" to="/contact/">contact</NavLink>
+    </Flex>
   </div>
 )
 

@@ -1,6 +1,60 @@
 import React from 'react'
 import { FormWithConstraints, FieldFeedbacks, FieldFeedback } from 'react-form-with-constraints'
 import { DisplayFields } from 'react-form-with-constraints-tools'
+import styled from 'styled-components'
+import { Flex, Box } from 'grid-styled'
+
+const Label = styled.label`
+  display: block;
+  flex: none;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 12rem;
+`
+
+const Input = styled.input`
+  border-style: ridge;
+  border-width: 1px;
+  display: inline-block;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 24rem;
+  vertical-align: middle;
+`
+const Textarea = styled.textarea`
+  border-style: ridge;
+  border-width: 1px;
+  display: inline-block;
+  margin-bottom: 1rem;
+  margin-right: 1rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  width: 24rem;
+  vertical-align: middle;
+`
+
+const Button =styled.button`
+  color: black;
+  border: 1px ridge black;
+  background-color: white;
+  margin-right: 1rem;
+  padding: 0.5rem 2rem;
+  text-decoration: none;
+  transition:  0.2s linear;
+  -webkit-transition:  0.2s linear;
+  -moz-transition:  0.2s linear;
+  &:hover {
+    color: white;
+    border: 1px ridge white;
+    background-color: black;
+    transition:  0.2s linear;
+    -webkit-transition:  0.2s linear;
+    -moz-transition:  0.2s linear;
+  }
+`
 
 class ContactForm extends React.Component {
     constructor (props) {
@@ -56,39 +110,45 @@ class ContactForm extends React.Component {
             data-netlify='true'
             data-netlify-honeypot='bot-field'
         >
-            <input
+            <Input
                 type='hidden'
                 name='form-name'
                 value='contact'
             />
-            <label htmlFor='email'>Email:</label>
-            <input
-                className='required email'
-                id='email'
-                name='email'
-                onChange={this.handleChange}
-                placeholder='your favourite email'
-                required
-                type='email'
-                value={this.state.email}
-            />
-            <label htmlFor="text">Your message:</label>
-            <input
-                className='required text'
-                id='text'
-                name='text'
-                onChange={this.handleMessageChange}
-                placeholder='your message'
-                required
-                rows={8}
-                type='text'
-                value={this.state.message}
-            />
-            <button
-                children='SEND YOUR MESSAGE'
-                disabled={this.state.disabled}
-                onClick={this.handleSubmit}
-            />
+            <Flex direction='row' wrap>
+              <Label htmlFor='email'>Email:</Label>
+              <Input
+                  className='required email'
+                  id='email'
+                  name='email'
+                  onChange={this.handleChange}
+                  placeholder='your favourite email'
+                  required
+                  type='email'
+                  value={this.state.email}
+              />
+            </Flex>
+            <Flex direction='row' wrap>
+              <Label htmlFor="text">Your message:</Label>
+              <Textarea
+                  className='required text'
+                  id='text'
+                  name='text'
+                  onChange={this.handleMessageChange}
+                  placeholder='your message'
+                  required
+                  rows={8}
+                  type='text'
+                  value={this.state.message}
+              />
+            </Flex>
+            <Flex direction='row' justify='flex-end' wrap>
+              <Button
+                  children='SEND YOUR MESSAGE'
+                  disabled={this.state.disabled}
+                  onClick={this.handleSubmit}
+              />
+            </Flex>
             <FieldFeedbacks for='email'>
                 <FieldFeedback when='typeMismatch'>
                     <p>Invalid email address.</p>

@@ -1,7 +1,9 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Header from '../components/header'
+import Footer from '../components/footer'
 import Gallery from '../components/gallery'
+import { Box } from 'grid-styled'
 
 const IndexPage = ({ data }) => (
   <div>
@@ -13,10 +15,10 @@ const IndexPage = ({ data }) => (
       fb={data.site.siteMetadata.fb}
       instagram={data.site.siteMetadata.instagram}
     />
-    <p>Click on an image to view full dimensions and order prints.</p>
     <Gallery
       nodes={data.allContentfulProduct.edges}
     />
+    <Footer />
   </div>
 )
 
@@ -43,8 +45,8 @@ export const query = graphql`
             id
             title
             description
-            sizes (maxWidth: 360) {
-              ...GatsbyContentfulSizes
+            resolutions(width: 384, height: 384) {
+              ...GatsbyContentfulResolutions
             }
           }
         } 

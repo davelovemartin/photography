@@ -1,36 +1,29 @@
 import React from 'react'
 import Link from 'gatsby-link'
 import Header from '../components/header'
-import Footer from '../components/footer'
-import ContactForm from '../components/contact-form'
-import { Flex, Box } from 'grid-styled'
+import { Box } from 'grid-styled'
 
-const ContactPage = ({ data }) => (
+
+const TermsPage = ({ data }) => (
   <div>
     <Header
-      title={'Contact ' + data.site.siteMetadata.title}
+      title={'Terms ' + data.site.siteMetadata.title}
       description={data.site.siteMetadata.description}
       location={data.site.siteMetadata.location}
       name={data.site.siteMetadata.name}
       fb={data.site.siteMetadata.fb}
       instagram={data.site.siteMetadata.instagram}
     />
-    <Flex wrap direction='row'>
-        <Box
-            p={2}
-        >
-            <h2>Contact Chris</h2>
-            <ContactForm />
-        </Box>
-    </Flex>
-    <Footer />
+    <Box p={2}>
+      <h2>Terms and Conditions</h2>
+    </Box>
   </div>
 )
 
-export default ContactPage
+export default TermsPage
 
 export const query = graphql`
-  query ContactQuery {
+  query TermsQuery {
     site {
       siteMetadata {
         title,
