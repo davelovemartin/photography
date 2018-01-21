@@ -8,6 +8,7 @@ const NavLink = styled(Link)`
     color: black;
     text-decoration: none;
     text-transform: uppercase;
+    margin-bottom: 1rem;
     ::after {
         content: '';
         display: block;

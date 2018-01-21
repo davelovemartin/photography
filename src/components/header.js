@@ -22,7 +22,6 @@ const Header = props => (
         instagram={props.instagram}
     />
     <Flex
-      align={'flex-end'}
       direction={'row'}
       pb={'8rem'}
       pt={2}
