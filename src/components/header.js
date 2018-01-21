@@ -31,7 +31,7 @@ const Header = props => (
       <Title>
         <NavLink to="/">Chris Hill</NavLink>
       </Title>
-        <NavLink mb={2} ml="auto" to="/contact/">contact</NavLink>
+        <NavLink ml="auto" to="/contact/">contact</NavLink>
     </Flex>
   </div>
 )
