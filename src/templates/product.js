@@ -11,9 +11,19 @@ const RadioButtonGroup = styled.div`
   height: 9rem;
   font-size: 0.75rem;
   line-height: 2;
-  &:hover {
-
+  & img {
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+    transition: filter .4s ease !important;
+    transition: -webkit-filter .4s ease  !important;
   }
+  &:hover {
+    & img {
+      filter: grayscale(0);
+      -webkit-filter: grayscale(0);
+    }
+  }
+
 `
 
 class Product extends React.Component {
@@ -82,15 +92,15 @@ class Product extends React.Component {
               <Flex height={'9rem'} justify='space-between' mb={2}>
                 <RadioButtonGroup value='a3' aria-checked={'false'}>
                   <label>A3</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.a3Png.childImageSharp.resolutions} />
                 </RadioButtonGroup>
                 <RadioButtonGroup value='a2' aria-checked={'false'}>
                   <label>A2</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.a2Png.childImageSharp.resolutions} />
                 </RadioButtonGroup>
                 <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
                   <label>Download</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.downloadPng.childImageSharp.resolutions} />                  
                 </RadioButtonGroup>
               </Flex>
             </RadioGroup>
@@ -104,15 +114,15 @@ class Product extends React.Component {
               <Flex height={'9rem'} justify='space-between' mb={2}>
                 <RadioButtonGroup value='a3' aria-checked={'false'}>
                   <label>No Frame</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.noframePng.childImageSharp.resolutions} />
                 </RadioButtonGroup>
                 <RadioButtonGroup value='a2' aria-checked={'false'}>
                   <label>Standard</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.budgetPng.childImageSharp.resolutions} />
                 </RadioButtonGroup>
                 <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
                   <label>Delux</label>
-                  <Img resolutions={this.props.data.file.childImageSharp.resolutions} />
+                  <Img resolutions={this.props.data.deluxePng.childImageSharp.resolutions} />
                 </RadioButtonGroup>
               </Flex>
             </RadioGroup>
@@ -193,11 +203,46 @@ const dataFrame = [
 
 export const query = graphql`
   query ProductQuery($title: String!) {
-    file(relativePath: { eq: "placeholder.png" }) {
+    a2Png: file(relativePath: { eq: "A2.png" }) {
       childImageSharp {
         resolutions(width: 112, height: 120) {
           ...GatsbyImageSharpResolutions
-        }
+        } 
+      }
+    }
+    a3Png: file(relativePath: { eq: "a3.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        } 
+      }
+    }
+    downloadPng: file(relativePath: { eq: "download.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        } 
+      }
+    }
+    noframePng: file(relativePath: { eq: "noframe.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        } 
+      }
+    }
+    budgetPng: file(relativePath: { eq: "budget.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        } 
+      }
+    }
+    deluxePng: file(relativePath: { eq: "deluxe.png" }) {
+      childImageSharp {
+        resolutions(width: 112, height: 120) {
+          ...GatsbyImageSharpResolutions
+        } 
       }
     }
     site {

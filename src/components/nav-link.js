@@ -5,16 +5,19 @@ import { space } from 'styled-system'
 
 const NavLink = styled(Link)`
     ${space}
-    border-bottom: 2px solid white;
     color: black;
-    margin-bottom: 0px;
     text-decoration: none;
     text-transform: uppercase;
-    transition: 0.2s linear;
-    &:hover {
-        border-bottom: 2px solid black;
-        color: black;
-        margin-bottom: 0px;
+    ::after {
+        content: '';
+        display: block;
+        width: 0;
+        height: 1px;
+        background: #000;
+        transition: width .4s ease;
+    }
+    &:hover::after, &:focus::after {
+        width: 100%;
     }
 `
 
