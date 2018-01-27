@@ -54,7 +54,7 @@ injectGlobal`
 const TemplateWrapper = ({ children }) => (
   <ThemeProvider
     theme={{
-      breakpoints: [ 54, 80, 106 ],
+      breakpoints: [ 48, 72, 96 ],
       fontSizes: [
         '0.5rem', '1rem', '2rem'
       ],
@@ -62,8 +62,8 @@ const TemplateWrapper = ({ children }) => (
     }}
   >
     <Container
-      width={[ '28rem', '54rem', '80rem', '106rem']}
-      p={2}
+      width={[ '24rem', '48rem', '72rem', '96rem']}
+      py={2}
     >
     {children()}
     </Container>

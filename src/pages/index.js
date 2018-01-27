@@ -45,7 +45,7 @@ export const query = graphql`
             id
             title
             description
-            resolutions(width: 384, height: 384) {
+            resolutions(width: 352, height: 352) {
               ...GatsbyContentfulResolutions
             }
           }

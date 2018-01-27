@@ -26,6 +26,10 @@ const RadioButtonGroup = styled.div`
 
 `
 
+const Strong = styled.strong`
+  float: right;
+`
+
 class Product extends React.Component {
   constructor (props) {
     super (props)
@@ -67,7 +71,7 @@ class Product extends React.Component {
         </Flex>
         <Flex wrap>
             <Box
-                width={[1, 1, '50rem']}
+                width={[1, 1, '48rem']}
                 p={2}
             >
               <Box mb={5}>
@@ -127,9 +131,9 @@ class Product extends React.Component {
               </Flex>
             </RadioGroup>
             <p><b>Room left for error messages</b></p>
-            <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <strong>£16</strong></p>
+            <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <Strong>£16</Strong></p>
             <br />
-            <p>The Surface frame provides a subtle, contemporary surround. The black frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <strong>£18</strong></p>
+            <p>The Surface frame provides a subtle, contemporary surround. The black frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <Strong>£18</Strong></p>
             <Flex mt={2}>
               <Box>
                 <h2>Total: <strong>£34</strong></h2>

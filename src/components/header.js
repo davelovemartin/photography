@@ -23,12 +23,13 @@ const Header = props => (
     />
     <Flex
       direction={'row'}
-      pb={'8rem'}
-      pt={2}
+      mb={'4rem'}
+      mt={2}
       px={2}
+      w={[ '24rem', '48rem', '72rem', '96rem' ]}
     >
       <Title>
-        <NavLink to="/">Chris Hill</NavLink>
+        <NavLink to="/">Chris Hill Photography</NavLink>
       </Title>
         <NavLink ml="auto" to="/contact/">contact</NavLink>
     </Flex>

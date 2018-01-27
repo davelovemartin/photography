@@ -9,6 +9,7 @@ const Footer = props => (
       mb={2}
       mt={2}
       px={2}
+      w={[ '24rem', '48rem', '72rem', '96rem' ]}
     >
         <Box>
             <p>All images &copy; Chris Hill {(new Date()).getFullYear()} </p>
