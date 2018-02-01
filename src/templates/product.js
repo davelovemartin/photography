@@ -3,10 +3,37 @@ import Header from '../components/header'
 import Footer from '../components/footer'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
-import {RadioGroup, Radio} from 'react-radio-group' 
 import { Flex, Box } from 'grid-styled'
 
-const RadioButtonGroup = styled.div`
+
+class SizeButtonGroup extends React.Component {
+  handleSizeClick = () => this.props.onClick(this.props.value)
+  render () {
+    return <CustomRadioButton 
+      aria-checked={this.props.checked}
+      onClick={this.handleSizeClick}
+      value={this.props.value}
+      >
+        <label>{this.props.value}</label>
+        <Img resolutions={this.props.resolutions} />
+    </CustomRadioButton>
+  }
+}
+
+class FrameButtonGroup extends React.Component {
+  handleFrameClick = () => this.props.onClick(this.props.value)
+  render () {
+    return <CustomRadioButton 
+      aria-checked={this.props.checked}
+      onClick={this.handleFrameClick}
+      value={this.props.value}
+      >
+        <label>{this.props.value}</label>
+        <Img resolutions={this.props.resolutions} />
+    </CustomRadioButton>
+  }
+}
+const CustomRadioButton = styled.div`
   text-align: center;
   height: 9rem;
   font-size: 0.75rem;
@@ -21,9 +48,15 @@ const RadioButtonGroup = styled.div`
     & img {
       filter: grayscale(0);
       -webkit-filter: grayscale(0);
+      cursor: pointer;
     }
   }
-
+  &[aria-checked="true"] {
+    & img {
+      filter: grayscale(0);
+      -webkit-filter: grayscale(0);
+    }
+  }
 `
 
 const Strong = styled.strong`
@@ -34,23 +67,25 @@ class Product extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
-      selectedSize: false,
-      selectedFrame: false,
-      isLandscape: false
+      isLandscape: false,
+      selectedFrame: '',
+      selectedSize: ''
     }
-    this.handleChangeFrame = this.handleChangeFrame.bind(this)
-    this.handleChangeSize = this.handleChangeSize.bind(this)
+    this.handleSizeClick = this.handleSizeClick.bind(this)
+    this.handleFrameClick = this.handleFrameClick.bind(this)
   }
-  handleChangeFrame () {
 
+  handleSizeClick (value) {
+    this.setState({ selectedSize: value })
   }
-  handleChangeSize () {
+  handleFrameClick (value) {
+    this.setState({ selectedFrame: value })
+  }
 
-  }
   render () {
     const aR = this.props.data.contentfulProduct.picture.resize.aspectRatio
     if (aR > 1) {
-      this.setState = { isLandscape: true}
+      this.setState({ isLandscape: true})
     }
     return (
       <div>
@@ -86,50 +121,52 @@ class Product extends React.Component {
               width={[1, 1, '24rem']}
               p={2}
           >
-            <RadioGroup 
-              name='sizes'
-              selectedValue={this.state.selectedSize}
-              onChange={this.handleChangeSize}
-              role='radiogroup'
-            >
+            <div role='radiogroup'>
               <p>1. Choose a size:</p>
               <Flex height={'9rem'} justify='space-between' mb={2}>
-                <RadioButtonGroup value='a3' aria-checked={'false'}>
-                  <label>A3</label>
-                  <Img resolutions={this.props.data.a3Png.childImageSharp.resolutions} />
-                </RadioButtonGroup>
-                <RadioButtonGroup value='a2' aria-checked={'false'}>
-                  <label>A2</label>
-                  <Img resolutions={this.props.data.a2Png.childImageSharp.resolutions} />
-                </RadioButtonGroup>
-                <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
-                  <label>Download</label>
-                  <Img resolutions={this.props.data.downloadPng.childImageSharp.resolutions} />                  
-                </RadioButtonGroup>
+                <SizeButtonGroup
+                  checked={this.state.selectedSize === 'a3'}
+                  onClick={this.handleSizeClick}
+                  resolutions={this.props.data.a3Png.childImageSharp.resolutions}
+                  value={'a3'}
+                />
+                <SizeButtonGroup
+                  checked={this.state.selectedSize === 'a2'}
+                  onClick={this.handleSizeClick}
+                  resolutions={this.props.data.a2Png.childImageSharp.resolutions}
+                  value={'a2'}
+                />
+                <SizeButtonGroup
+                  checked={this.state.selectedSize === 'digitalDownload'}
+                  onClick={this.handleSizeClick}
+                  resolutions={this.props.data.downloadPng.childImageSharp.resolutions}
+                  value={'digitalDownload'}
+                />
               </Flex>
-            </RadioGroup>
-            <RadioGroup
-              name='frames'
-              selectedValue={this.state.selectedFrame}
-              onChange={this.handleChangeFrame}
-              role='radiogroup'
-            >
+            </div>
+            <div role='radiogroup'>
               <p>2. Choose a frame:</p>
               <Flex height={'9rem'} justify='space-between' mb={2}>
-                <RadioButtonGroup value='a3' aria-checked={'false'}>
-                  <label>No Frame</label>
-                  <Img resolutions={this.props.data.noframePng.childImageSharp.resolutions} />
-                </RadioButtonGroup>
-                <RadioButtonGroup value='a2' aria-checked={'false'}>
-                  <label>Standard</label>
-                  <Img resolutions={this.props.data.budgetPng.childImageSharp.resolutions} />
-                </RadioButtonGroup>
-                <RadioButtonGroup value='digitalDownload' aria-checked={'false'}>
-                  <label>Delux</label>
-                  <Img resolutions={this.props.data.deluxePng.childImageSharp.resolutions} />
-                </RadioButtonGroup>
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame === 'noFrame'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.noframePng.childImageSharp.resolutions}
+                  value='noFrame'
+                />
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame === 'standard'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
+                  value='standard'
+                />
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame === 'deluxe'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
+                  value='deluxe'
+                />
               </Flex>
-            </RadioGroup>
+            </div>
             <p><b>Room left for error messages</b></p>
             <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <Strong>£16</Strong></p>
             <br />

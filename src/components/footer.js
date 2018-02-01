@@ -15,7 +15,7 @@ const Footer = props => (
             <p>All images &copy; Chris Hill {(new Date()).getFullYear()} </p>
         </Box>
         <Box ml="auto">
-          <NavLink to="/terms/">terms and conditions</NavLink>
+          <NavLink to="/terms/">terms</NavLink>
         </Box>
     </Flex>        
 )
