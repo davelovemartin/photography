@@ -14,7 +14,7 @@ class SizeButtonGroup extends React.Component {
       onClick={this.handleSizeClick}
       value={this.props.value}
       >
-        <label>{this.props.value}</label>
+        <label>{this.props.title}</label>
         <Img resolutions={this.props.resolutions} />
     </CustomRadioButton>
   }
@@ -28,11 +28,20 @@ class FrameButtonGroup extends React.Component {
       onClick={this.handleFrameClick}
       value={this.props.value}
       >
-        <label>{this.props.value}</label>
+        <label>{this.props.title}</label>
         <Img resolutions={this.props.resolutions} />
     </CustomRadioButton>
   }
 }
+
+function Description (props) {
+  return (
+    <div>
+      <p>{props.description}<Strong>{props.price ? '£' + props.price : ''}</Strong></p>
+    </div>
+  )
+}
+
 const CustomRadioButton = styled.div`
   text-align: center;
   height: 9rem;
@@ -68,25 +77,64 @@ class Product extends React.Component {
     super (props)
     this.state = {
       isLandscape: false,
-      selectedFrame: '',
-      selectedSize: ''
+      print: false,
+      selectedSize: {
+        id: '',
+        description: '',
+        price: 0
+      },
+      selectedFrame: {
+        id: '',
+        description: '',
+        price: 0
+      }
     }
     this.handleSizeClick = this.handleSizeClick.bind(this)
     this.handleFrameClick = this.handleFrameClick.bind(this)
   }
 
   handleSizeClick (value) {
-    this.setState({ selectedSize: value })
+    const sizes = data.size
+    const s = sizes.filter(size => size.id === value)
+    if (value !== 'dd') {
+      this.setState({
+        print: true,     
+        selectedSize: {
+          id: s[0].id,
+          description: s[0].description,
+          price: s[0].price
+        }
+      })
+    } else {
+      this.setState({
+        print: false,     
+        selectedSize: {
+          id: s[0].id,
+          description: s[0].description,
+          price: s[0].price
+        },
+        selectedFrame: {
+          id: '',
+          description: '',
+          price: 0
+        }
+      })
+    }
   }
   handleFrameClick (value) {
-    this.setState({ selectedFrame: value })
+    const frames = data.frame
+    const f = frames.filter(frame => frame.id === value)
+    const p = f[0].prices.filter(price => price.id === value)
+    this.setState({
+      selectedFrame: {
+        id: f[0].id,
+        description: f[0].description,
+        price: f[0].prices[0].price
+      }
+    })
   }
 
   render () {
-    const aR = this.props.data.contentfulProduct.picture.resize.aspectRatio
-    if (aR > 1) {
-      this.setState({ isLandscape: true})
-    }
     return (
       <div>
         <Header
@@ -106,13 +154,13 @@ class Product extends React.Component {
         </Flex>
         <Flex wrap>
             <Box
-                width={[1, 1, '48rem']}
-                p={2}
+              width={[1, 1, '48rem']}
+              p={2}
             >
               <Box mb={5}>
                 <Img 
-                    sizes={this.props.data.contentfulProduct.picture.sizes}
-                    alt={this.props.data.contentfulProduct.picture.description}
+                  sizes={this.props.data.contentfulProduct.picture.sizes}
+                  alt={this.props.data.contentfulProduct.picture.description}
                 />
               </Box>
               <p>{this.props.data.contentfulProduct.description.description}</p>
@@ -125,55 +173,71 @@ class Product extends React.Component {
               <p>1. Choose a size:</p>
               <Flex height={'9rem'} justify='space-between' mb={2}>
                 <SizeButtonGroup
-                  checked={this.state.selectedSize === 'a3'}
+                  checked={this.state.selectedSize.id === 'a3'}
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.a3Png.childImageSharp.resolutions}
                   value={'a3'}
+                  title='A3'
                 />
                 <SizeButtonGroup
-                  checked={this.state.selectedSize === 'a2'}
+                  checked={this.state.selectedSize.id === 'a2'}
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.a2Png.childImageSharp.resolutions}
                   value={'a2'}
+                  title='A2'
                 />
                 <SizeButtonGroup
-                  checked={this.state.selectedSize === 'digitalDownload'}
+                  checked={this.state.selectedSize.id === 'dd'}
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.downloadPng.childImageSharp.resolutions}
-                  value={'digitalDownload'}
+                  value={'dd'}
+                  title='Download'
                 />
               </Flex>
             </div>
-            <div role='radiogroup'>
-              <p>2. Choose a frame:</p>
-              <Flex height={'9rem'} justify='space-between' mb={2}>
-                <FrameButtonGroup
-                  checked={this.state.selectedFrame === 'noFrame'}
-                  onClick={this.handleFrameClick}
-                  resolutions={this.props.data.noframePng.childImageSharp.resolutions}
-                  value='noFrame'
-                />
-                <FrameButtonGroup
-                  checked={this.state.selectedFrame === 'standard'}
-                  onClick={this.handleFrameClick}
-                  resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
-                  value='standard'
-                />
-                <FrameButtonGroup
-                  checked={this.state.selectedFrame === 'deluxe'}
-                  onClick={this.handleFrameClick}
-                  resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
-                  value='deluxe'
-                />
-              </Flex>
-            </div>
-            <p><b>Room left for error messages</b></p>
-            <p>An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges. <Strong>£16</Strong></p>
-            <br />
-            <p>The Surface frame provides a subtle, contemporary surround. The black frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge. <Strong>£18</Strong></p>
+            <Description
+              description={this.state.selectedSize.description}
+              price={this.state.selectedSize.price}
+            />
+            {
+              this.state.print
+              ? <div role='radiogroup'>
+                  <p>2. Choose a frame:</p>
+                  <Flex height={'9rem'} justify='space-between' mb={2}>
+                    <FrameButtonGroup
+                      checked={this.state.selectedFrame.id === 'noFrame'}
+                      onClick={this.handleFrameClick}
+                      resolutions={this.props.data.noframePng.childImageSharp.resolutions}
+                      value='noFrame'
+                      title={'None'}
+                    />
+                    <FrameButtonGroup
+                      checked={this.state.selectedFrame.id === 'standard'}
+                      onClick={this.handleFrameClick}
+                      resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
+                      value='standard'
+                      title={'Spacer'}
+                    />
+                    <FrameButtonGroup
+                      checked={this.state.selectedFrame.id === 'deluxe'}
+                      onClick={this.handleFrameClick}
+                      resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
+                      value='deluxe'
+                      title={'Surface'}
+                    />
+                  </Flex>
+                </div>
+              : ''
+            }
+            { this.state.print
+              ? <Description
+              description={this.state.selectedFrame.description}
+              price={this.state.selectedFrame.price}
+            /> : ''
+            }
             <Flex mt={2}>
               <Box>
-                <h2>Total: <strong>£34</strong></h2>
+                <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
@@ -194,53 +258,86 @@ class Product extends React.Component {
 
 export default Product
 
-const dataSize = [
-  {
-    id: 'a2',
-    title: 'A2 Print',
-    description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-    price: 16
-  },
-  {
-    id: 'a3',
-    title: 'A3 Print',
-    description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-    price: 10
-  },
-  {
-    id: 'digitalDownload',
-    title: 'Digital Download',
-    description: 'A full resolution jpg file and licence for X.',
-    price: 0
-  }
-]
-
-const dataFrame = [
-  {
-    id: 'noframe',
-    title: 'No Frame',
-    description: 'Just the print',
-    price: 0
-  },
-  {
-    id: 'budget',
-    title: 'Spacer Frame',
-    description: 'Contemporary hand-stained finish made from solid ash, delivered fully strung ready for hanging',
-    price: {
-      a2: 11,
-      a3: 8
+const data = {
+  size: [
+    {
+      id: 'a2',
+      title: 'A2 Print',
+      description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
+      price: 16
+    },
+    {
+      id: 'a3',
+      title: 'A3 Print',
+      description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
+      price: 10
+    },
+    {
+      id: 'dd',
+      title: 'Digital Download',
+      description: 'A full resolution jpg file and licence for X.',
+      price: 0
     }
-  },
-  {
-    id: 'premium',
-    title: '',
-    description: 'The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge.',
-    price: {
-      a2: 23.5,
-      a3: 18
+  ],
+  frame: [
+    {
+      id: 'noFrame',
+      title: 'No Frame',
+      description: 'Just the print',
+      prices: [
+        {
+          id: 'a2',
+          price: 0
+        },
+        { 
+          id: 'a3',
+          price: 0
+        },
+        { id: 'dd',
+          price: 0
+        }
+      ]
+    },
+    {
+      id: 'standard',
+      title: 'Spacer Frame',
+      description: 'Contemporary hand-stained finish made from solid ash, delivered fully strung ready for hanging',
+      prices: [
+        {
+          id: 'a2',
+          price: 11
+        },
+        {
+          id: 'a3',
+          price: 8
+        },
+        {
+          id: 'dd',
+          price: 0
+        }
+      ]
+    },
+    {
+      id: 'deluxe',
+      title: 'Surface frame',
+      description: 'The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge.',
+      prices: [
+        {
+          id: 'a2',
+          price: 24
+        },
+        {
+          id: 'a3',
+          price: 18
+        },
+        {
+          id: 'dd',
+          price: 0
+        }
+      ]
     }
-  }
-]
+  ]
+}
 
 export const query = graphql`
   query ProductQuery($title: String!) {
