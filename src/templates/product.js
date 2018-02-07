@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Children } from 'react'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
-
+import { Transition } from 'react-transition-group'
 
 class SizeButtonGroup extends React.Component {
   handleSizeClick = () => this.props.onClick(this.props.value)
@@ -13,6 +13,7 @@ class SizeButtonGroup extends React.Component {
       aria-checked={this.props.checked}
       onClick={this.handleSizeClick}
       value={this.props.value}
+      selected={this.props.selected}
       >
         <label>{this.props.title}</label>
         <Img resolutions={this.props.resolutions} />
@@ -27,6 +28,7 @@ class FrameButtonGroup extends React.Component {
       aria-checked={this.props.checked}
       onClick={this.handleFrameClick}
       value={this.props.value}
+      selected={this.props.selected}
       >
         <label>{this.props.title}</label>
         <Img resolutions={this.props.resolutions} />
@@ -34,11 +36,38 @@ class FrameButtonGroup extends React.Component {
   }
 }
 
+const defaultStyle = {
+  transition: `opacity`,
+  opacity: 0,
+}
+
+const transitionStyles = {
+  entering: { opacity: 0 },
+  entered: { opacity: 1 },
+};
+
+const Fade = ({ in: inProp, timeout: durationProp, children, ...props }) => (
+  <Transition
+    in={inProp}
+    timeout={durationProp}
+    {...props}
+  >
+  {(state, timeout) => (
+    <div style={{
+      ...defaultStyle,
+      ...transitionStyles[state]
+    }}>
+      {children}
+    </div>
+    )}
+  </Transition>
+)
+
 function Description (props) {
   return (
-    <div>
+    <Fade in={props.selected} timeout={props.duration}>
       <p>{props.description}<Strong>{props.price ? '£' + props.price : ''}</Strong></p>
-    </div>
+    </Fade>
   )
 }
 
@@ -47,6 +76,7 @@ const CustomRadioButton = styled.div`
   height: 9rem;
   font-size: 0.75rem;
   line-height: 2;
+  transition: opacity .4s ease !important;
   & img {
     filter: grayscale(1);
     -webkit-filter: grayscale(1);
@@ -78,8 +108,9 @@ class Product extends React.Component {
     this.state = {
       isLandscape: false,
       print: false,
+      size: false,
       selectedSize: {
-        id: '',
+        id: false,
         description: '',
         price: 0
       },
@@ -98,7 +129,8 @@ class Product extends React.Component {
     const s = sizes.filter(size => size.id === value)
     if (value !== 'dd') {
       this.setState({
-        print: true,     
+        print: true,
+        size: true,   
         selectedSize: {
           id: s[0].id,
           description: s[0].description,
@@ -107,7 +139,8 @@ class Product extends React.Component {
       })
     } else {
       this.setState({
-        print: false,     
+        print: false, 
+        size: true,    
         selectedSize: {
           id: s[0].id,
           description: s[0].description,
@@ -177,6 +210,7 @@ class Product extends React.Component {
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.a3Png.childImageSharp.resolutions}
                   value={'a3'}
+                  selected={true}
                   title='A3'
                 />
                 <SizeButtonGroup
@@ -184,6 +218,7 @@ class Product extends React.Component {
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.a2Png.childImageSharp.resolutions}
                   value={'a2'}
+                  selected={true}
                   title='A2'
                 />
                 <SizeButtonGroup
@@ -191,6 +226,7 @@ class Product extends React.Component {
                   onClick={this.handleSizeClick}
                   resolutions={this.props.data.downloadPng.childImageSharp.resolutions}
                   value={'dd'}
+                  selected={true}
                   title='Download'
                 />
               </Flex>
@@ -198,43 +234,51 @@ class Product extends React.Component {
             <Description
               description={this.state.selectedSize.description}
               price={this.state.selectedSize.price}
+              selected={this.state.size ? true : false}
+              duration={300}
             />
-            {
-              this.state.print
-              ? <div role='radiogroup'>
-                  <p>2. Choose a frame:</p>
-                  <Flex height={'9rem'} justify='space-between' mb={2}>
-                    <FrameButtonGroup
-                      checked={this.state.selectedFrame.id === 'noFrame'}
-                      onClick={this.handleFrameClick}
-                      resolutions={this.props.data.noframePng.childImageSharp.resolutions}
-                      value='noFrame'
-                      title={'None'}
-                    />
-                    <FrameButtonGroup
-                      checked={this.state.selectedFrame.id === 'standard'}
-                      onClick={this.handleFrameClick}
-                      resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
-                      value='standard'
-                      title={'Spacer'}
-                    />
-                    <FrameButtonGroup
-                      checked={this.state.selectedFrame.id === 'deluxe'}
-                      onClick={this.handleFrameClick}
-                      resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
-                      value='deluxe'
-                      title={'Surface'}
-                    />
-                  </Flex>
-                </div>
-              : ''
-            }
-            { this.state.print
-              ? <Description
+            <Fade
+              timeout={900}
+              in={this.state.print ? true : false}
+              role='radiogroup'
+            >
+              <p>2. Choose a frame:</p>
+            </Fade>
+            <Fade
+              timeout={1600}
+              in={this.state.print ? true : false}
+              role='radiogroup'
+            >
+              <Flex height={'9rem'} justify='space-between' mb={2}>
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame.id === 'noFrame'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.noframePng.childImageSharp.resolutions}
+                  value='noFrame' 
+                  title={'None'}
+                />
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame.id === 'standard'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
+                  value='standard'
+                  title={'Spacer'}
+                />
+                <FrameButtonGroup
+                  checked={this.state.selectedFrame.id === 'deluxe'}
+                  onClick={this.handleFrameClick}
+                  resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
+                  value='deluxe'
+                  title={'Surface'}
+                />
+              </Flex>
+            </Fade>
+            <Description
               description={this.state.selectedFrame.description}
               price={this.state.selectedFrame.price}
-            /> : ''
-            }
+              selected={this.state.print ? true : false}
+              duration={400}
+            />
             <Flex mt={2}>
               <Box>
                 <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
