@@ -35,6 +35,29 @@ class FrameButtonGroup extends React.Component {
     </CustomRadioButton>
   }
 }
+const CustomPayPalInput = styled.input`
+  &:hover {
+    cursor: pointer;
+  }
+`
+class PayPalForm extends React.Component {
+  render(){
+    if (this.props.selected){
+      return (
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick" />
+          <input type="hidden" name="hosted_button_id" value={this.props.buttonCode} />
+          <CustomPayPalInput type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" />
+          <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
+        </form>
+      )}
+    else {
+      return (
+        <PayPalImg alt="" border="0" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" />
+      )
+    }
+  }
+}
 
 const defaultStyle = {
   transition: `opacity`,
@@ -70,6 +93,11 @@ function Description (props) {
     </Fade>
   )
 }
+
+const PayPalImg = styled.img`
+    filter: grayscale(1);
+    -webkit-filter: grayscale(1);
+`
 
 const CustomRadioButton = styled.div`
   text-align: center;
@@ -118,7 +146,9 @@ class Product extends React.Component {
         id: '',
         description: '',
         price: 0
-      }
+      },
+      buttonCode: '',
+      activateButton: false
     }
     this.handleSizeClick = this.handleSizeClick.bind(this)
     this.handleFrameClick = this.handleFrameClick.bind(this)
@@ -135,7 +165,9 @@ class Product extends React.Component {
           id: s[0].id,
           description: s[0].description,
           price: s[0].price
-        }
+        },
+        activateButton: false,
+        buttonCode: ''
       })
     } else {
       this.setState({
@@ -150,7 +182,9 @@ class Product extends React.Component {
           id: '',
           description: '',
           price: 0
-        }
+        },
+        activateButton: true,
+        buttonCode: s[0].code
       })
     }
   }
@@ -159,11 +193,13 @@ class Product extends React.Component {
     const f = frames.filter(frame => frame.id === value)
     const p = f[0].prices.filter(price => price.id === value)
     this.setState({
+      activateButton: true,
       selectedFrame: {
         id: f[0].id,
         description: f[0].description,
         price: f[0].prices[0].price
-      }
+      },
+      buttonCode: f[0].prices[0].code
     })
   }
 
@@ -284,12 +320,10 @@ class Product extends React.Component {
                 <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
-                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                  <input type="hidden" name="cmd" value="_s-xclick" />
-                  <input type="hidden" name="hosted_button_id" value="XBVNWNYL9W3NL" />
-                  <input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" />
-                  <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
-                </form>
+                <PayPalForm
+                  buttonCode={this.state.buttonCode}
+                  selected={this.state.activateButton}
+                />
               </Box>
             </Flex>
           </Box>
@@ -308,19 +342,20 @@ const data = {
       id: 'a2',
       title: 'A2 Print',
       description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 16
+      price: 24
     },
     {
       id: 'a3',
       title: 'A3 Print',
       description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 10
+      price: 15
     },
     {
       id: 'dd',
       title: 'Digital Download',
       description: 'A full resolution jpg file and licence for X.',
-      price: 0
+      price: 49,
+      code: '9SAQ2YHAZFD58'
     }
   ],
   frame: [
@@ -331,14 +366,17 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 0
+          price: 0,
+          code: 'T4UDRHPZRPMNS'
         },
         { 
           id: 'a3',
-          price: 0
+          price: 0,
+          code: 'E2LHS6EWFGZMQ'
         },
         { id: 'dd',
-          price: 0
+          price: 0,
+          code: '9SAQ2YHAZFD58'
         }
       ]
     },
@@ -349,15 +387,18 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 11
+          price: 16,
+          code: 'FW529YPYDQ8XC'
         },
         {
           id: 'a3',
-          price: 8
+          price: 12,
+          code: 'ESBF8J2BTAWVS'
         },
         {
           id: 'dd',
-          price: 0
+          price: 0,
+          code: '9SAQ2YHAZFD58'
         }
       ]
     },
@@ -368,15 +409,18 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 24
+          price: 36,
+          code: 'Q9EFVNG69BYA2'
         },
         {
           id: 'a3',
-          price: 18
+          price: 27,
+          code: '5RFRNY3UQCRHW'
         },
         {
           id: 'dd',
-          price: 0
+          price: 0,
+          code: '9SAQ2YHAZFD58'
         }
       ]
     }
