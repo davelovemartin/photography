@@ -102,6 +102,7 @@ class PayPalForm extends React.Component {
       sandbox: process.env.PAYPAL_CLIENT_ID,
       production: process.env.PAYPAL_CLIENT_ID
     }
+    console.log(client.sandbox)
     let paypal = null;
     if (typeof window !== 'undefined') {
       paypal = require('paypal-checkout');
