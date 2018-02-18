@@ -98,11 +98,6 @@ class PayPalForm extends React.Component {
   }
 
   render() {
-    let client = {
-      sandbox: process.env.PAYPAL_CLIENT_ID,
-      production: process.env.PAYPAL_CLIENT_ID
-    }
-    console.log(client.sandbox)
     let paypal = null;
     if (typeof window !== 'undefined') {
       paypal = require('paypal-checkout');
@@ -113,7 +108,7 @@ class PayPalForm extends React.Component {
       <div className='shoppingCart'>
         <PayPalButton
           env={'sandbox'}
-          client={client}
+          client={process.env.PAYPAL_CLIENT_ID}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
           onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
