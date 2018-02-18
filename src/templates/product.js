@@ -1,10 +1,12 @@
 import React, { Children } from 'react'
+import ReactDOM from 'react-dom'
 import Header from '../components/header'
 import Footer from '../components/footer'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
 import { Transition } from 'react-transition-group'
+import paypal from 'paypal-checkout'
 
 class SizeButtonGroup extends React.Component {
   handleSizeClick = () => this.props.onClick(this.props.value)
@@ -40,22 +42,81 @@ const CustomPayPalInput = styled.input`
     cursor: pointer;
   }
 `
+
 class PayPalForm extends React.Component {
-  render(){
-    if (this.props.selected){
-      return (
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick" />
-          <input type="hidden" name="hosted_button_id" value={this.props.buttonCode} />
-          <CustomPayPalInput type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!" />
-          <img alt="" border="0" src="https://www.paypalobjects.com/en_GB/i/scr/pixel.gif" width="1" height="1" />
-        </form>
-      )}
-    else {
-      return (
-        <PayPalImg alt="" border="0" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" />
-      )
+
+  async order (frame, size, shipping) {
+    try {
+      // Backend API url
+      const res = await fetch(process.env.ORDER_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          frame: frame,
+          size: size,
+          recipientName: shipping.recipient_name,
+          address1: shipping.line1,
+          addressTownOrCity: shipping.city,
+          stateOrCounty: shipping.state,
+          postalOrZipCode: shipping.postal_code,
+          destinationCountryCode: shipping.country_code,
+          payment: 'InvoiceMe',
+          qualityLevel: 'Pro',
+          mobileTelephone: shipping.phone
+        })
+      })
+      const data = await res.json()
+      console.log(data)
+    } catch (err) {
+      alert(err)
     }
+  }
+  
+  payment (data, actions) {    
+    return actions.payment.create({
+      payment: {
+        transactions: [
+          {
+            amount: { 
+              total: this.props.total, 
+              currency: 'GBP' 
+            }
+          }
+        ]
+      }
+    })
+  }
+
+  onAuthorize (data, actions) {
+    return actions.payment.get().then(function(data) {
+
+      var shipping = data.payer.payer_info.shipping_address
+      return actions.payment.execute().then(function(payment) {
+        // create order and then transfer to confirmation page
+        order(frame, size, shipping)
+      })
+    })
+  }
+
+  render() {
+    let client = {
+      sandbox: process.env.PAYPAL_CLIENT_ID,
+      production: process.env.PAYPAL_CLIENT_ID
+    }
+    
+    let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
+
+    return (
+      <div className='shoppingCart'>
+        <PayPalButton
+          env={'sandbox'}
+          client={client}
+          payment={ (data, actions) => this.payment(data, actions) }
+          commit={true}
+          onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
+          style={{size: 'medium', color: 'gold'}}
+        />
+      </div>
+    )
   }
 }
 
@@ -93,11 +154,6 @@ function Description (props) {
     </Fade>
   )
 }
-
-const PayPalImg = styled.img`
-    filter: grayscale(1);
-    -webkit-filter: grayscale(1);
-`
 
 const CustomRadioButton = styled.div`
   text-align: center;
@@ -320,10 +376,17 @@ class Product extends React.Component {
                 <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
-                <PayPalForm
+              {
+                this.state.activateButton ? (
+                  <PayPalForm
                   buttonCode={this.state.buttonCode}
                   selected={this.state.activateButton}
+                  total={this.state.selectedSize.price + this.state.selectedFrame.price}
                 />
+                ) : (
+                  <span />
+                )
+              }
               </Box>
             </Flex>
           </Box>
