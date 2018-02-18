@@ -6,7 +6,7 @@ import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
 import { Transition } from 'react-transition-group'
-import paypal from 'paypal-checkout'
+// import paypal from 'paypal-checkout'
 
 class SizeButtonGroup extends React.Component {
   handleSizeClick = () => this.props.onClick(this.props.value)
@@ -102,7 +102,10 @@ class PayPalForm extends React.Component {
       sandbox: process.env.PAYPAL_CLIENT_ID,
       production: process.env.PAYPAL_CLIENT_ID
     }
-    
+    let paypal = null;
+    if (typeof window !== 'undefined') {
+      paypal = require('paypal-checkout');
+    }
     let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
 
     return (
