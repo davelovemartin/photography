@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "braintree-web": "^3.31.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.15.0",
     "gatsby": "^1.9.153",
@@ -18,7 +19,6 @@
     "gatsby-transformer-sharp": "^1.6.16",
     "grid-styled": "^2.0.0-11",
     "path": "^0.12.7",
-    "paypal-checkout": "^4.0.178",
     "pwinty": "^2.3.1",
     "react-form-with-constraints": "^0.7.0",
     "react-form-with-constraints-tools": "^0.7.0",

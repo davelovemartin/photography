@@ -6,7 +6,8 @@ import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
 import { Transition } from 'react-transition-group'
-// import paypal from 'paypal-checkout'
+import paypalCheckout from 'braintree-web/paypal-checkout'
+import client from 'braintree-web/client'
 
 class SizeButtonGroup extends React.Component {
   handleSizeClick = () => this.props.onClick(this.props.value)
@@ -45,6 +46,17 @@ const CustomPayPalInput = styled.input`
 
 class PayPalForm extends React.Component {
 
+  async getToken () {
+    try {
+      const tokenRes = await fetch(process.env.TOKEN_URL, {
+        method: 'GET'
+      })
+      const tokenData = await tokenRes
+      console.log(tokenData)
+      const CLIENT_TOKEN_FROM_SERVER = tokenData.clientToken
+    }
+  }
+
   async order (frame, size, shipping) {
     try {
       // Backend API url
@@ -72,47 +84,37 @@ class PayPalForm extends React.Component {
   }
   
   payment (data, actions) {    
-    return actions.payment.create({
-      payment: {
-        transactions: [
-          {
-            amount: { 
-              total: this.props.total, 
-              currency: 'GBP' 
-            }
-          }
-        ]
-      }
+    return actions.braintree.create({
+      flow: 'checkout',
+      amount: this.props.total, 
+      currency: 'GBP',
+      enableShippingAddress: true
     })
   }
 
   onAuthorize (data, actions) {
-    return actions.payment.get().then(function(data) {
+    // return actions.braintree.get().then(function(data) {
 
-      var shipping = data.payer.payer_info.shipping_address
-      return actions.payment.execute().then(function(payment) {
-        // create order and then transfer to confirmation page
-        order(frame, size, shipping)
-      })
-    })
+    //   var shipping = data.payer.payer_info.shipping_address
+    //   return actions.payment.execute().then(function(payment) {
+    //     // create order and then transfer to confirmation page
+    //     order(frame, size, shipping)
+    //   })
+    // })
   }
 
   render() {
-    let paypal = null;
-    if (typeof window !== 'undefined') {
-      paypal = require('paypal-checkout');
-    }
     let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
     
     let client = {
-      sandbox: `${process.env.PAYPAL_CLIENT_ID}`,
-      production: `${process.env.PAYPAL_CLIENT_ID}`
+      sandbox: CLIENT_TOKEN_FROM_SERVER,
+      production: CLIENT_TOKEN_FROM_SERVER
     }
     return (
       <div className='shoppingCart'>
         <PayPalButton
+          braintree={{client: client, paypalCheckout: paypalCheckout}}
           env={'production'}
-          client={client}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
           onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
