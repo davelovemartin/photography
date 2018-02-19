@@ -4,7 +4,8 @@ var gateway = braintree.connect({
 
 export function handler(event, context, callback) {
     return gateway.clientToken.generate({}, function (err, response) {
-        console.log(response.clientToken)
-        callback(null, response.clientToken)
+
+        var clientToken = response.clientToken
+        callback(null, clientToken)
     });
 }
