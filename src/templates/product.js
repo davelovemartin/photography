@@ -112,7 +112,6 @@ class PayPalForm extends React.Component {
       <div className='shoppingCart'>
         <PayPalButton
           env={'production'}
-          country={'GB'}
           client={client}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
