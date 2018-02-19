@@ -62,7 +62,7 @@ class PayPalForm extends React.Component {
         method: 'GET'
       })
       const tokenData = await tokenRes
-      console.log(tokenData)
+      console.log('tokenData: ' + tokenData)
       this.setState({
         CLIENT_TOKEN_FROM_SERVER: tokenData.clientToken
       })
