@@ -104,11 +104,15 @@ class PayPalForm extends React.Component {
     }
     let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
     
+    let client = {
+      sandbox: `${process.env.PAYPAL_CLIENT_ID}`,
+      production: `${process.env.PAYPAL_CLIENT_ID}`
+    }
     return (
       <div className='shoppingCart'>
         <PayPalButton
           env={'sandbox'}
-          client={process.env.PAYPAL_CLIENT_I}
+          client={client}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
           onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
