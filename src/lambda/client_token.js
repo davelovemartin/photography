@@ -10,7 +10,9 @@ export function handler(event, context, callback) {
             headers: {
               'Access-Control-Allow-Origin': '*'
             },
-            body: result.clientToken
+            body: JSON.stringify(
+                {clientToken: result.clientToken}
+            )
         }
         callback(null, response)
     });

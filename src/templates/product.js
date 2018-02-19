@@ -61,7 +61,7 @@ class PayPalForm extends React.Component {
       const tokenRes = await fetch('/.netlify/functions/client_token', {
         method: 'GET'
       })
-      const tokenData = await tokenRes
+      const tokenData = await tokenRes.json()
       console.log('tokenData: ' + tokenData)
       this.setState({
         CLIENT_TOKEN_FROM_SERVER: tokenData.clientToken
