@@ -125,14 +125,18 @@ class PayPalForm extends React.Component {
     }
     let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
 
-    let client = {
-      sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
-      production: this.state.CLIENT_TOKEN_FROM_SERVER
-    }
     return (
       <div className='shoppingCart'>
         <PayPalButton
-          braintree={{client: client, paypalCheckout: paypalCheckout}}
+          braintree={
+            { 
+              client: {
+                sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
+                production: this.state.CLIENT_TOKEN_FROM_SERVER
+              }, 
+              paypalCheckout: paypalCheckout
+            }
+          }
           env={'production'}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
