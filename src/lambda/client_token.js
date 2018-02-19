@@ -1,3 +1,4 @@
+var braintree = require("braintree")
 var gateway = braintree.connect({
     accessToken: process.env.BRAINTREE_TOKEN
 });

@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "braintree": "^2.7.0",
     "braintree-web": "^3.31.0",
     "dotenv": "^4.0.0",
     "eslint": "^4.15.0",
