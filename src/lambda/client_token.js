@@ -4,9 +4,14 @@ var gateway = braintree.connect({
 });
 
 export function handler(event, context, callback) {
-    return gateway.clientToken.generate({}, function (err, response) {
-
-        var clientToken = response.clientToken
-        callback(null, clientToken)
+    return gateway.clientToken.generate({}).then(result => {
+        const response = {
+            statusCode: 200,
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            },
+            body: result.clientToken
+        }
+        callback(null, response)
     });
 }
