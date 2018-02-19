@@ -45,15 +45,29 @@ const CustomPayPalInput = styled.input`
 `
 
 class PayPalForm extends React.Component {
+  constructor (props) {
+    super (props)
+    this.state = {
+      CLIENT_TOKEN_FROM_SERVER: ''
+    }
+  }
 
-  async getToken () {
+  componentWillMount() {
+    this.getToken()
+  }
+
+  async getToken() {
     try {
       const tokenRes = await fetch(process.env.TOKEN_URL, {
         method: 'GET'
       })
       const tokenData = await tokenRes
       console.log(tokenData)
-      const CLIENT_TOKEN_FROM_SERVER = tokenData.clientToken
+      this.setState({
+        CLIENT_TOKEN_FROM_SERVER: tokenData.clientToken
+      })
+    } catch (err) {
+      alert(err)
     }
   }
 
@@ -104,11 +118,16 @@ class PayPalForm extends React.Component {
   }
 
   render() {
+
+    let paypal = null;
+    if (typeof window !== 'undefined') {
+      paypal = require('paypal-checkout');
+    }
     let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
-    
+
     let client = {
-      sandbox: CLIENT_TOKEN_FROM_SERVER,
-      production: CLIENT_TOKEN_FROM_SERVER
+      sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
+      production: this.state.CLIENT_TOKEN_FROM_SERVER
     }
     return (
       <div className='shoppingCart'>
