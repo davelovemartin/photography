@@ -137,7 +137,7 @@ class PayPalForm extends React.Component {
               paypalCheckout: paypalCheckout
             }
           }
-          env={'production'}
+          env={'sandbox'}
           payment={ (data, actions) => this.payment(data, actions) }
           commit={true}
           onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
