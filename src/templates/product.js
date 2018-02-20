@@ -150,7 +150,7 @@ class PayPalForm extends React.Component {
                 style={{size: 'medium', color: 'gold'}}
               />
             )
-        }  
+          }  
       </div>
     )
   }
