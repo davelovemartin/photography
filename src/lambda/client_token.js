@@ -3,7 +3,7 @@ var gateway = braintree.connect({
     accessToken: process.env.BRAINTREE_TOKEN
 });
 
-exports.handler = (event, context, callback) => {
+exports.handler = function(event, context, callback) {
     return gateway.clientToken.generate({}).then(result => {
         const response = {
             statusCode: 200,
