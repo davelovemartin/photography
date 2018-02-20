@@ -48,11 +48,12 @@ class PayPalForm extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
+      loading: true,
       CLIENT_TOKEN_FROM_SERVER: ''
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getToken()
   }
 
@@ -64,6 +65,7 @@ class PayPalForm extends React.Component {
       const tokenData = await tokenRes.json()
       console.log('tokenData: ' + tokenData)
       this.setState({
+        loading: false,
         CLIENT_TOKEN_FROM_SERVER: tokenData.clientToken
       })
     } catch (err) {
@@ -127,22 +129,28 @@ class PayPalForm extends React.Component {
 
     return (
       <div className='shoppingCart'>
-        <PayPalButton
-          braintree={
-            { 
-              client: {
-                sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
-                production: this.state.CLIENT_TOKEN_FROM_SERVER
-              }, 
-              paypalCheckout: paypalCheckout
-            }
-          }
-          env={'sandbox'}
-          payment={ (data, actions) => this.payment(data, actions) }
-          commit={true}
-          onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
-          style={{size: 'medium', color: 'gold'}}
-        />
+        {
+          this.state.loading 
+          ? (<div>loading...</div>)
+          : (
+              <PayPalButton
+                braintree={
+                  { 
+                    client: {
+                      sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
+                      production: this.state.CLIENT_TOKEN_FROM_SERVER
+                    }, 
+                    paypalCheckout: paypalCheckout
+                  }
+                }
+                env={'sandbox'}
+                payment={ (data, actions) => this.payment(data, actions) }
+                commit={true}
+                onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
+                style={{size: 'medium', color: 'gold'}}
+              />
+            )
+        }  
       </div>
     )
   }
