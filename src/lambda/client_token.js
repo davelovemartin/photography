@@ -1,4 +1,4 @@
-var braintree = require("braintree")
+var braintree = require("braintree");
 var gateway = braintree.connect({
     accessToken: process.env.BRAINTREE_TOKEN
 });
@@ -16,16 +16,16 @@ exports.handler = function(event, context, callback) {
         callback(null, response)
     })
     .catch((err) => {
-        console.log(err)
-        const response = {
-          statusCode: 500,
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({
-            error: err.message
-          })
-        }
-        callback(null, response)
-      });
-};
+      console.log(err)
+      const response = {
+        statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+          error: err.message
+        })
+      }
+      callback(null, response)
+    });
+}
