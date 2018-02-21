@@ -1,4 +1,4 @@
 [build]
   Command = "yarn build && yarn build:lambda"
-  Functions = "functions"
+  functions = "./src/functions"
   Publish = "build"
