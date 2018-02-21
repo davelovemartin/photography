@@ -34,3 +34,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
   })
 }
 
+// exports.modifyWebpackConfig = ({config}) => {
+
+//   config.merge({
+//     entry: './src/lambda-src/client_token.js',
+//     output: {
+//       path: __dirname + '/src/lambda',
+//       filename: 'client_token.js'
+//     }
+//   })
+
+//   return config
+// }
+
