@@ -1,7 +1,7 @@
-// var braintree = require("braintree");
-// var gateway = braintree.connect({
-//     accessToken: process.env.BRAINTREE_TOKEN
-// });
+var braintree = require("braintree");
+var gateway = braintree.connect({
+    accessToken: process.env.BRAINTREE_TOKEN
+});
 
 exports.handler = function(event, context, callback) {
   console.log("hi");
