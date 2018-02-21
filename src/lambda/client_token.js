@@ -1,4 +1,4 @@
-const braintree = require('braintree');
+// const braintree = require('braintree');
 
 exports.handler = function(event, context, callback) {
   // const gateway = braintree.connect({ accessToken: process.env.BRAINTREE_TOKEN });
