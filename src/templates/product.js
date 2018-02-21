@@ -59,7 +59,7 @@ class PayPalForm extends React.Component {
 
   async getToken() {
     try {
-      const tokenRes = await fetch('/.netlify/lambda/client_token', {
+      const tokenRes = await fetch('https://competent-brahmagupta-2bcbbd.netlify.com/.netlify/functions/client_token', {
         method: 'GET'
       })
       const tokenData = await tokenRes.json()
@@ -76,7 +76,7 @@ class PayPalForm extends React.Component {
   async order (frame, size, shipping) {
     try {
       // Backend API url
-      const res = await fetch('/.netlify/lambda/order', {
+      const res = await fetch('https://competent-brahmagupta-2bcbbd.netlify.com/.netlify/functions/order', {
         method: 'POST',
         body: JSON.stringify({
           frame: frame,
