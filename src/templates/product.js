@@ -2,12 +2,11 @@ import React, { Children } from 'react'
 import ReactDOM from 'react-dom'
 import Header from '../components/header'
 import Footer from '../components/footer'
+import CustomStripeCheckout from '../components/CustomStripeCheckout'
 import Img from 'gatsby-image'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
 import { Transition } from 'react-transition-group'
-import paypalCheckout from 'braintree-web/paypal-checkout'
-import client from 'braintree-web/client'
 
 class SizeButtonGroup extends React.Component {
   handleSizeClick = () => this.props.onClick(this.props.value)
@@ -38,119 +37,33 @@ class FrameButtonGroup extends React.Component {
     </CustomRadioButton>
   }
 }
-const CustomPayPalInput = styled.input`
-  &:hover {
-    cursor: pointer;
-  }
-`
 
-class PayPalForm extends React.Component {
+class StripeButton extends React.Component {
   constructor (props) {
     super (props)
     this.state = {
-      loading: true,
-      CLIENT_TOKEN_FROM_SERVER: ''
-    }
-  }
-
-  componentDidMount() {
-    this.getToken()
-  }
-
-  async getToken() {
-    try {
-      const tokenRes = await fetch('https://competent-brahmagupta-2bcbbd.netlify.com/.netlify/functions/client_token', {
-        method: 'GET'
-      })
-      const tokenData = await tokenRes.json()
-      console.log('tokenData: ' + tokenData)
-      this.setState({
-        loading: false,
-        CLIENT_TOKEN_FROM_SERVER: tokenData.clientToken
-      })
-    } catch (err) {
-      alert(err)
-    }
-  }
-
-  async order (frame, size, shipping) {
-    try {
-      // Backend API url
-      const res = await fetch('https://competent-brahmagupta-2bcbbd.netlify.com/.netlify/functions/order', {
-        method: 'POST',
-        body: JSON.stringify({
-          frame: frame,
-          size: size,
-          recipientName: shipping.recipient_name,
-          address1: shipping.line1,
-          addressTownOrCity: shipping.city,
-          stateOrCounty: shipping.state,
-          postalOrZipCode: shipping.postal_code,
-          destinationCountryCode: shipping.country_code,
-          payment: 'InvoiceMe',
-          qualityLevel: 'Pro',
-          mobileTelephone: shipping.phone
-        })
-      })
-      const data = await res.json()
-      console.log(data)
-    } catch (err) {
-      alert(err)
+      loading: true
     }
   }
   
-  payment (data, actions) {    
-    return actions.braintree.create({
-      flow: 'checkout',
-      amount: this.props.total, 
-      currency: 'GBP',
-      enableShippingAddress: true
-    })
-  }
-
-  onAuthorize (data, actions) {
-    // return actions.braintree.get().then(function(data) {
-
-    //   var shipping = data.payer.payer_info.shipping_address
-    //   return actions.payment.execute().then(function(payment) {
-    //     // create order and then transfer to confirmation page
-    //     order(frame, size, shipping)
-    //   })
-    // })
-  }
-
   render() {
 
-    let paypal = null;
-    if (typeof window !== 'undefined') {
-      paypal = require('paypal-checkout');
-    }
-    let PayPalButton = paypal.Button.driver('react', { React, ReactDOM });
-
     return (
-      <div className='shoppingCart'>
-        {
-          this.state.loading 
-          ? (<div>loading...</div>)
-          : (
-              <PayPalButton
-                braintree={
-                  { 
-                    client: {
-                      sandbox: this.state.CLIENT_TOKEN_FROM_SERVER,
-                      production: this.state.CLIENT_TOKEN_FROM_SERVER
-                    }, 
-                    paypalCheckout: paypalCheckout
-                  }
-                }
-                env={'sandbox'}
-                payment={ (data, actions) => this.payment(data, actions) }
-                commit={true}
-                onAuthorize={ (data, actions) => this.onAuthorize(data, actions) }
-                style={{size: 'medium', color: 'gold'}}
-              />
-            )
-          }  
+      <div className='shoppingCart'>   
+        <CustomStripeCheckout
+          amount={this.props.total}
+          billingAddress
+          currency='gbp'
+          description={this.props.description}
+          locale='en'
+          name={'Chris Hill Photography'}
+          panelLabel='BUY NOW'
+          reconfigureOnUpdate
+          shippingAddress
+          stripeKey={process.env.STRIPE_PUBLIC_KEY}
+          triggerEvent={'onClick'}
+          zipCode
+        />
       </div>
     )
   }
@@ -414,11 +327,20 @@ class Product extends React.Component {
               <Box ml='auto' pt={1}>
               {
                 this.state.activateButton ? (
-                  <PayPalForm
-                  buttonCode={this.state.buttonCode}
-                  selected={this.state.activateButton}
-                  total={this.state.selectedSize.price + this.state.selectedFrame.price}
-                />
+                  <StripeButton
+                    currency='gbp'
+                    description={this.state.selectedSize.description + this.state.selectedSize.description}
+                    locale='en'
+                    name={this.props.data.site.siteMetadata.name}
+                    panelLabel='BUY NOW'
+                    reconfigureOnUpdate
+                    shippingAddress
+                    selected={this.state.activateButton}
+                    stripeKey={process.env.STRIPE_PUBLIC_KEY}
+                    total={this.state.selectedSize.price + this.state.selectedFrame.price}
+                    triggerEvent={'onClick'}
+                    zipCode
+                  />
                 ) : (
                   <span />
                 )

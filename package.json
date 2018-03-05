@@ -27,6 +27,7 @@
     "react-form-with-constraints-tools": "^0.7.0",
     "react-helmet": "^5.2.0",
     "react-radio-group": "^3.0.2",
+    "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.2.1",
     "slugify": "^1.2.9",
     "styled-components": "^2.4.0",

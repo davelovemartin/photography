@@ -1,5 +1,6 @@
 import React from 'react'
 import { FormWithConstraints, FieldFeedbacks, FieldFeedback } from 'react-form-with-constraints'
+import Button from './button'
 import { DisplayFields } from 'react-form-with-constraints-tools'
 import styled from 'styled-components'
 import { Flex, Box } from 'grid-styled'
@@ -34,26 +35,6 @@ const Textarea = styled.textarea`
   padding: 1rem;
   width: 24rem;
   vertical-align: middle;
-`
-
-const Button =styled.button`
-  color: black;
-  border: 1px ridge black;
-  background-color: white;
-  margin-right: 1rem;
-  padding: 0.5rem 2rem;
-  text-decoration: none;
-  transition:  0.2s linear;
-  -webkit-transition:  0.2s linear;
-  -moz-transition:  0.2s linear;
-  &:hover {
-    color: white;
-    border: 1px ridge white;
-    background-color: black;
-    transition:  0.2s linear;
-    -webkit-transition:  0.2s linear;
-    -moz-transition:  0.2s linear;
-  }
 `
 
 class ContactForm extends React.Component {
