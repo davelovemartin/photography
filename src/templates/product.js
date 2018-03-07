@@ -39,12 +39,6 @@ class FrameButtonGroup extends React.Component {
 }
 
 class StripeButton extends React.Component {
-  constructor (props) {
-    super (props)
-    this.state = {
-      loading: true
-    }
-  }
   
   render() {
 
@@ -54,6 +48,7 @@ class StripeButton extends React.Component {
           amount={this.props.total}
           billingAddress
           currency='gbp'
+          selected={this.props.selected}
           description={this.props.description}
           locale='en'
           name={'Chris Hill Photography'}
@@ -109,12 +104,12 @@ const CustomRadioButton = styled.div`
   height: 9rem;
   font-size: 0.75rem;
   line-height: 2;
-  transition: opacity .4s ease !important;
+  transition: opacity .35s ease !important;
   & img {
     filter: grayscale(1);
     -webkit-filter: grayscale(1);
-    transition: filter .4s ease !important;
-    transition: -webkit-filter .4s ease  !important;
+    transition: filter .35s ease !important;
+    transition: -webkit-filter .35s ease  !important;
   }
   &:hover {
     & img {
@@ -148,7 +143,7 @@ class Product extends React.Component {
         price: 0
       },
       selectedFrame: {
-        id: '',
+        id: false,
         description: '',
         price: 0
       },
@@ -170,10 +165,17 @@ class Product extends React.Component {
           id: s[0].id,
           description: s[0].description,
           price: s[0].price
-        },
-        activateButton: false,
-        buttonCode: ''
+        }
       })
+      if (this.state.selectedFrame.id){
+        this.setState({
+          activateButton: true
+        })
+      } else {
+        this.setState({
+          activateButton: false
+        })
+      }
     } else {
       this.setState({
         print: false, 
@@ -188,8 +190,7 @@ class Product extends React.Component {
           description: '',
           price: 0
         },
-        activateButton: true,
-        buttonCode: s[0].code
+        activateButton: true
       })
     }
   }
@@ -279,14 +280,14 @@ class Product extends React.Component {
               duration={300}
             />
             <Fade
-              timeout={900}
+              timeout={600}
               in={this.state.print ? true : false}
               role='radiogroup'
             >
               <p>2. Choose a frame:</p>
             </Fade>
             <Fade
-              timeout={1600}
+              timeout={900}
               in={this.state.print ? true : false}
               role='radiogroup'
             >
@@ -325,26 +326,20 @@ class Product extends React.Component {
                 <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
-              {
-                this.state.activateButton ? (
-                  <StripeButton
-                    currency='gbp'
-                    description={this.state.selectedSize.description + this.state.selectedSize.description}
-                    locale='en'
-                    name={this.props.data.site.siteMetadata.name}
-                    panelLabel='BUY NOW'
-                    reconfigureOnUpdate
-                    shippingAddress
-                    selected={this.state.activateButton}
-                    stripeKey={process.env.STRIPE_PUBLIC_KEY}
-                    total={this.state.selectedSize.price + this.state.selectedFrame.price}
-                    triggerEvent={'onClick'}
-                    zipCode
-                  />
-                ) : (
-                  <span />
-                )
-              }
+                <StripeButton
+                  currency='gbp'
+                  description={this.state.selectedSize.description + this.state.selectedSize.description}
+                  locale='en'
+                  name={this.props.data.site.siteMetadata.name}
+                  panelLabel='BUY NOW'
+                  reconfigureOnUpdate
+                  shippingAddress
+                  selected={this.state.activateButton}
+                  stripeKey={process.env.STRIPE_PUBLIC_KEY}
+                  total={this.state.selectedSize.price + this.state.selectedFrame.price}
+                  triggerEvent={'onClick'}
+                  zipCode
+                />
               </Box>
             </Flex>
           </Box>

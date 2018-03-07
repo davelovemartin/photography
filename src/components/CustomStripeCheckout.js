@@ -96,6 +96,7 @@ class CustomStripeCheckout extends React.Component {
       name={this.props.name}
       panelLabel={this.props.panelLabel}
       reconfigureOnUpdate={this.props.reconfigureOnUpdate}
+      selected={this.props.selected}
       shippingAddress={this.props.shippingAddress}
       skuId={this.props.skuId}
       slug={this.props.slug}
@@ -110,6 +111,7 @@ class CustomStripeCheckout extends React.Component {
         px={4}
         py={1}
         w={1}
+        disabled={!this.props.selected}
         children={this.props.panelLabel}
       />
     </StripeCheckout>

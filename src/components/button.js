@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 const Button = styled.button`
     color: black;
@@ -18,6 +18,11 @@ const Button = styled.button`
         transition:  0.2s linear;
         -webkit-transition:  0.2s linear;
         -moz-transition:  0.2s linear;
+    }
+    &:disabled {
+        color: #999;
+        border: 1px ridge white;
+        background-color: white;
     }
 `
 export default Button
