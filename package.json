@@ -30,6 +30,7 @@
     "react-stripe-checkout": "^2.6.3",
     "react-transition-group": "^2.2.1",
     "slugify": "^1.2.9",
+    "stripe": "^5.5.0",
     "styled-components": "^2.4.0",
     "styled-system": "^1.1.1"
   },

@@ -94,7 +94,7 @@ const Fade = ({ in: inProp, timeout: durationProp, children, ...props }) => (
 function Description (props) {
   return (
     <Fade in={props.selected} timeout={props.duration}>
-      <p>{props.description}<Strong>{props.price ? '£' + props.price : ''}</Strong></p>
+      <p>{props.description}<Strong>{props.price ? '£' + props.price / 100 : ''}</Strong></p>
     </Fade>
   )
 }
@@ -147,7 +147,6 @@ class Product extends React.Component {
         description: '',
         price: 0
       },
-      buttonCode: '',
       activateButton: false
     }
     this.handleSizeClick = this.handleSizeClick.bind(this)
@@ -204,8 +203,7 @@ class Product extends React.Component {
         id: f[0].id,
         description: f[0].description,
         price: f[0].prices[0].price
-      },
-      buttonCode: f[0].prices[0].code
+      }
     })
   }
 
@@ -323,7 +321,7 @@ class Product extends React.Component {
             />
             <Flex mt={2}>
               <Box>
-                <h2>Total: <strong>{ '£' + (this.state.selectedSize.price + this.state.selectedFrame.price)}</strong></h2>
+                <h2>Total: <strong>{ '£' + (this.state.selectedSize.price / 100 + this.state.selectedFrame.price / 100)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
                 <StripeButton
@@ -358,20 +356,19 @@ const data = {
       id: 'a2',
       title: 'A2 Print',
       description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 24
+      price: 2400
     },
     {
       id: 'a3',
       title: 'A3 Print',
       description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 15
+      price: 1500
     },
     {
       id: 'dd',
       title: 'Digital Download',
       description: 'A full resolution jpg file and licence for X.',
-      price: 49,
-      code: '9SAQ2YHAZFD58'
+      price: 4900
     }
   ],
   frame: [
@@ -382,17 +379,14 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 0,
-          code: 'T4UDRHPZRPMNS'
+          price: 0
         },
         { 
           id: 'a3',
-          price: 0,
-          code: 'E2LHS6EWFGZMQ'
+          price: 0
         },
         { id: 'dd',
-          price: 0,
-          code: '9SAQ2YHAZFD58'
+          price: 0
         }
       ]
     },
@@ -403,18 +397,15 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 16,
-          code: 'FW529YPYDQ8XC'
+          price: 1600
         },
         {
           id: 'a3',
-          price: 12,
-          code: 'ESBF8J2BTAWVS'
+          price: 1200
         },
         {
           id: 'dd',
-          price: 0,
-          code: '9SAQ2YHAZFD58'
+          price: 0
         }
       ]
     },
@@ -425,18 +416,15 @@ const data = {
       prices: [
         {
           id: 'a2',
-          price: 36,
-          code: 'Q9EFVNG69BYA2'
+          price: 3600
         },
         {
           id: 'a3',
-          price: 27,
-          code: '5RFRNY3UQCRHW'
+          price: 2700
         },
         {
           id: 'dd',
-          price: 0,
-          code: '9SAQ2YHAZFD58'
+          price: 0
         }
       ]
     }

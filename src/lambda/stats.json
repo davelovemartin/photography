@@ -1,0 +1,12 @@
+{
+  "assetsByChunkName": {
+    "commons": [
+      "stripe_order.js",
+      "stripe_order.js.map"
+    ],
+    "main": [
+      "stripe_order.js",
+      "stripe_order.js.map"
+    ]
+  }
+}

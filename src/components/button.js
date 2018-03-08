@@ -12,17 +12,19 @@ const Button = styled.button`
     -webkit-transition:  0.2s linear;
     -moz-transition:  0.2s linear;
     &:hover {
-        color: white;
         border: 1px ridge white;
         background-color: black;
+        color: white;
+        cursor: pointer;
         transition:  0.2s linear;
         -webkit-transition:  0.2s linear;
         -moz-transition:  0.2s linear;
     }
     &:disabled {
         color: #999;
-        border: 1px ridge white;
-        background-color: white;
+        cursor: none;
+        border: 1px ridge #eee;
+        background-color: #eee;
     }
 `
 export default Button

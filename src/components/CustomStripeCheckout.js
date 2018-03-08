@@ -17,7 +17,6 @@ class CustomStripeCheckout extends React.Component {
           token,
           order: {
             currency: this.props.currency,
-            coupon: this.props.coupon,
             items: [
               {
                 type: 'sku',
