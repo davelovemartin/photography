@@ -11,7 +11,7 @@ class CustomStripeCheckout extends React.Component {
 
   async onToken (token, args) {
     try {
-      let response = await fetch(process.env.STRIPE_CHECKOUT_URL, {
+      let response = await fetch('/.netlify/functions/lambda', {
         method: 'POST',
         body: JSON.stringify({
           token,
