@@ -11,7 +11,7 @@ class CustomStripeCheckout extends React.Component {
 
   async onToken (token, args) {
     try {
-      let response = await fetch('/.netlify/functions/stripe_order', {
+      let response = await fetch(process.env.STRIPE_ORDER_URL, {
         method: 'POST',
         body: JSON.stringify({
           token,
