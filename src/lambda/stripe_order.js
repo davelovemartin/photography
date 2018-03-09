@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var stripe = __webpack_require__(1)(({"CONTENTFUL_SPACE_ID":"x77ncy6osjfp","CONTENTFUL_ACCESS_TOKEN":"6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0","PWINTY_API_KEY":"b3e6f775-062a-49ed-acce-9c634480bbbc","PWINTY_MERCHANT_ID":"1e06e880-1240-4139-b28c-81bcb1841b8a","STRIPE_PUBLIC_KEY":"access_token$production$w7t8n6z8668vj9vj$d39e48c07397b4cd657182c995a1ea16","NODE_ENV":"production","PUBLIC_DIR":"/Users/justanotherdavemartin/Projects/photography/public"}).STRIPE_SECRET_KEY);
+	var stripe = __webpack_require__(1)(("sk_test_Ea6P7wunnOuSk5ZMlk1n5dCK"));
 	
 	module.exports.handler = function (event, context, callback) {
 	  var requestBody = JSON.parse(event.body);
@@ -3241,7 +3241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    "object" !== "undefined";
 	
 	function env(key) {
-	    return hasEnvVariables ? ({"CONTENTFUL_SPACE_ID":"x77ncy6osjfp","CONTENTFUL_ACCESS_TOKEN":"6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0","PWINTY_API_KEY":"b3e6f775-062a-49ed-acce-9c634480bbbc","PWINTY_MERCHANT_ID":"1e06e880-1240-4139-b28c-81bcb1841b8a","STRIPE_PUBLIC_KEY":"access_token$production$w7t8n6z8668vj9vj$d39e48c07397b4cd657182c995a1ea16","NODE_ENV":"production","PUBLIC_DIR":"/Users/justanotherdavemartin/Projects/photography/public"})[key] : undefined;
+	    return hasEnvVariables ? ({"CONTENTFUL_SPACE_ID":"x77ncy6osjfp","CONTENTFUL_ACCESS_TOKEN":"6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0","PWINTY_API_KEY":"b3e6f775-062a-49ed-acce-9c634480bbbc","PWINTY_MERCHANT_ID":"1e06e880-1240-4139-b28c-81bcb1841b8a","STRIPE_PUBLIC_KEY":"pk_test_FUPluz78Ub1Jg009vfHH7zlz","STRIPE_SECRET_KEY":"sk_test_Ea6P7wunnOuSk5ZMlk1n5dCK","NODE_ENV":"production","PUBLIC_DIR":"/Users/justanotherdavemartin/Projects/photography/public"})[key] : undefined;
 	}
 	
 	function getNativePromise() {
