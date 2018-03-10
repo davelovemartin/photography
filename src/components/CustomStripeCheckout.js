@@ -6,7 +6,6 @@ class CustomStripeCheckout extends React.Component {
   constructor(props) {
     super(props)
     this.onToken = this.onToken.bind(this)
-    this.state = { orderNo: null}
   }
 
   async onToken (token, args) {
@@ -90,8 +89,6 @@ class CustomStripeCheckout extends React.Component {
       reconfigureOnUpdate={this.props.reconfigureOnUpdate}
       selected={this.props.selected}
       shippingAddress={this.props.shippingAddress}
-      skuId={this.props.skuId}
-      slug={this.props.slug}
       stripeKey={this.props.stripeKey}
       token={this.onToken}
       triggerEvent={this.props.triggerEvent}

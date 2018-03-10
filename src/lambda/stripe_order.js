@@ -73,7 +73,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return stripe.orders.create({
 	    email: email,
 	    currency: currency,
-	    items: items,
 	    shipping: shipping
 	  }).then(function (order) {
 	    // Pay order with received token (from Stripe Checkout)

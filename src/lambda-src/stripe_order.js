@@ -15,7 +15,6 @@ module.exports.handler = (event, context, callback) => {
   return stripe.orders.create({
     email: email,
     currency: currency,
-    items: items,
     shipping: shipping
   }).then((order) => {
     // Pay order with received token (from Stripe Checkout)

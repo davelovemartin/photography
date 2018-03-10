@@ -38,32 +38,6 @@ class FrameButtonGroup extends React.Component {
   }
 }
 
-class StripeButton extends React.Component {
-  
-  render() {
-
-    return (
-      <div className='shoppingCart'>   
-        <CustomStripeCheckout
-          amount={this.props.total}
-          billingAddress
-          currency='gbp'
-          selected={this.props.selected}
-          description={this.props.description}
-          locale='en'
-          name={'Chris Hill Photography'}
-          panelLabel='BUY NOW'
-          reconfigureOnUpdate
-          shippingAddress
-          stripeKey={process.env.STRIPE_PUBLIC_KEY}
-          triggerEvent={'onClick'}
-          zipCode
-        />
-      </div>
-    )
-  }
-}
-
 const defaultStyle = {
   transition: `opacity`,
   opacity: 0,
@@ -324,8 +298,10 @@ class Product extends React.Component {
                 <h2>Total: <strong>{ '£' + (this.state.selectedSize.price / 100 + this.state.selectedFrame.price / 100)}</strong></h2>
               </Box>
               <Box ml='auto' pt={1}>
-                <StripeButton
-                  currency='gbp'
+                <CustomStripeCheckout
+                  amount={this.state.selectedSize.price + this.state.selectedFrame.price}
+                  billingAddress
+                  currency='GBP'
                   description={this.state.selectedSize.description + this.state.selectedSize.description}
                   locale='en'
                   name={this.props.data.site.siteMetadata.name}
@@ -334,7 +310,6 @@ class Product extends React.Component {
                   shippingAddress
                   selected={this.state.activateButton}
                   stripeKey={process.env.STRIPE_PUBLIC_KEY}
-                  total={this.state.selectedSize.price + this.state.selectedFrame.price}
                   triggerEvent={'onClick'}
                   zipCode
                 />
