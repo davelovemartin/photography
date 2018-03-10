@@ -36,16 +36,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
 // uncommenting this compiles the lambda scripts w/required modules on gatsby build
 
-exports.modifyWebpackConfig = ({config}) => {
+// exports.modifyWebpackConfig = ({config}) => {
 
-  config.merge({
-    entry: './src/lambda-src/stripe_order.js',
-    output: {
-      path: __dirname + '/src/lambda',
-      filename: 'stripe_order.js'
-    }
-  })
+//   config.merge({
+//     entry: './src/lambda-src/stripe_order.js',
+//     output: {
+//       path: __dirname + '/src/lambda',
+//       filename: 'stripe_order.js'
+//     }
+//   })
 
-  return config
-}
+//   return config
+// }
 
