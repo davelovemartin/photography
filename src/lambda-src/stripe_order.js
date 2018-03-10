@@ -8,31 +8,30 @@ module.exports.handler = (event, context, callback) => {
   const email = requestBody.token.email
 
   // Order information
+  const amount = requestBody.order.amount
   const currency = requestBody.order.currency
   const shipping = requestBody.order.shipping
 
-  // Create order
-  return stripe.orders.create({
-    email: email,
+  // Pay order with received token (from Stripe Checkout)
+  return stripe.charges.create({
+    amount: amount,
     currency: currency,
-    shipping: shipping
+    source: token,
+    description: 'order for ' + email,
+    receipt_email: email,
+    shipping: shipping,
   }).then((order) => {
-    // Pay order with received token (from Stripe Checkout)
-    return stripe.orders.pay(order.id, {
-      source: token // obtained with Stripe.js
-    }).then((order) => {
-      const response = {
-        statusCode: 200,
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({
-          message: `Order processed succesfully!`,
-          order
-        })
-      }
-      callback(null, response)
-    })
+    const response = {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        message: `Charge processed succesfully!`,
+        order
+      })
+    }
+    callback(null, response)
   })
   .catch((err) => { // Error response
     console.log(err)
