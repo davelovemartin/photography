@@ -17,12 +17,6 @@ class CustomStripeCheckout extends React.Component {
           token,
           order: {
             currency: this.props.currency,
-            items: [
-              {
-                type: 'sku',
-                parent: this.props.skuId
-              }
-            ],
             shipping: {
               name: args.shipping_name,
               address: {
@@ -37,20 +31,21 @@ class CustomStripeCheckout extends React.Component {
 
       // The await operator is used to wait for a Promise. It can only be used inside an async function.
       let orderJson = await response.json()
-      let mailResponse = await fetch(process.env.SES_SEND_EMAIL_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          email: `${orderJson.order.email}`,
-          id : `${orderJson.order.id}`
-        })
-      })
-      let email = await mailResponse.json(orderJson)
-      const history = createHistory()
-      history.push({
-        pathname: '/thankyou/',
-        state: { orderId: orderJson.order.id }
-      })
-      history.go()
+      console.log(orderJson)
+      // let mailResponse = await fetch(process.env.SES_SEND_EMAIL_URL, {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     email: `${orderJson.order.email}`,
+      //     id : `${orderJson.order.id}`
+      //   })
+      // })
+      // let email = await mailResponse.json(orderJson)
+      // const history = createHistory()
+      // history.push({
+      //   pathname: '/thankyou/',
+      //   state: { orderId: orderJson.order.id }
+      // })
+      // history.go()
     } catch(err) {
       // catches errors both in fetch and response.json
       alert(err);
@@ -84,8 +79,6 @@ class CustomStripeCheckout extends React.Component {
   // }
 
   render () {
-    const skuId = this.props.skuId;
-    const currency = this.props.currency;
     return <StripeCheckout
       amount={Number(this.props.amount)}
       billingAddress={this.props.billingAddress}
