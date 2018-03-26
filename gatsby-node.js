@@ -39,10 +39,10 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 // exports.modifyWebpackConfig = ({config}) => {
 
 //   config.merge({
-//     entry: './src/lambda-src/stripe_order.js',
+//     entry: './src/lambda-src/pwinty_order.js',
 //     output: {
 //       path: __dirname + '/src/lambda',
-//       filename: 'stripe_order.js'
+//       filename: 'pwinty_order.js'
 //     }
 //   })
 

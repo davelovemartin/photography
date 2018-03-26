@@ -1,4 +1,4 @@
-const pwinty = require('../lib/pwinty')(process.env.PWINTY_API_KEY, process.env.PWINTY_MERCHANT_ID, 'https://sandbox.pwinty.com:443')
+const pwinty = require('pwinty')(process.env.PWINTY_API_KEY, process.env.PWINTY_MERCHANT_ID, 'https://sandbox.pwinty.com:443')
 
 module.exports.handler = (event, context, callback) => {
     const requestBody = JSON.parse(event.body)
