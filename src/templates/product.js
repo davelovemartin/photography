@@ -306,6 +306,7 @@ class Product extends React.Component {
                   locale='en'
                   name={this.props.data.site.siteMetadata.name}
                   panelLabel='BUY NOW'
+                  photoUrl={this.props.data.contentfulProduct.picture.resolutions.src}
                   reconfigureOnUpdate
                   shippingAddress
                   selected={this.state.activateButton}
@@ -472,6 +473,9 @@ export const query = graphql`
         resize (width: 800) {
           height
           aspectRatio
+        }
+        resolutions {
+          src
         }
       } 
     }

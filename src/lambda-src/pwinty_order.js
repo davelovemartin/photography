@@ -3,8 +3,6 @@ const pwinty = require('../lib/pwinty')(process.env.PWINTY_API_KEY, process.env.
 export function handler(event, context, callback) {
     
     callback(null, {
-        statusCode: 200,
-        body: "Hello, Dave"
         // var orderParams = {};
         // pwinty.createOrder(orderParams, function (err, order) {
         
