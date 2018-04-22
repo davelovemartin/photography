@@ -20,10 +20,9 @@ const ImageLink = styled(Link)`
         & g {
             & text {
                 alignment-baseline: middle;
-                font-size: 3rem;
-                font-weight: 800;
+                font-size: 2rem;
+                font-weight: 600;
                 text-anchor: middle;
-                text-transform: uppercase;
             }
         }
     }
@@ -32,7 +31,7 @@ const ImageLink = styled(Link)`
             filter: grayscale(100%);
         }
         & svg {
-            opacity: 1;
+            opacity: 0.8;
             transform: scale(1);
         }
     }
@@ -59,7 +58,7 @@ const Gallery = props => (
             >
                 <ImageLink to={'/gallery/' + slugify(node.title)}>
                     <svg width="304" height="304" xmlns="http://www.w3.org/2000/svg">
-                        <g fill="none" fill-rule="evenodd">
+                        <g fill="none" fillRule="evenodd">
                             <path fill="#000" d="M0 0h304v304H0z"/>
                             <text x="152" y="152" fill="#fff">view</text>
                         </g>

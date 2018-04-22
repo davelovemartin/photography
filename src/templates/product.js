@@ -303,12 +303,14 @@ class Product extends React.Component {
                   billingAddress
                   currency='GBP'
                   description={this.state.selectedSize.description + this.state.selectedSize.description}
+                  frame={this.state.selectedFrame.id}
                   locale='en'
                   name={this.props.data.site.siteMetadata.name}
                   panelLabel='BUY NOW'
                   photoUrl={this.props.data.contentfulProduct.picture.resolutions.src}
                   reconfigureOnUpdate
                   shippingAddress
+                  size={this.state.selectedSize.id}
                   selected={this.state.activateButton}
                   stripeKey={process.env.STRIPE_PUBLIC_KEY}
                   triggerEvent={'onClick'}

@@ -30,20 +30,21 @@ class CustomStripeCheckout extends React.Component {
       })
 
       let orderJson = await response.json()
+      console.log(orderJson)
       const res = await fetch(process.env.PWINTY_ORDER_URL, {
         method: 'POST',
         body: JSON.stringify({
-          frame: frame,
-          size: size,
-          recipientName: shipping.recipient_name,
-          address1: shipping.line1,
-          addressTownOrCity: shipping.city,
-          stateOrCounty: shipping.state,
-          postalOrZipCode: shipping.postal_code,
-          destinationCountryCode: shipping.country_code,
+          frame: this.props.frame,
+          size: this.props.size,
+          recipientName: orderJson.shipping.name,
+          address1: orderJson.shipping.line1,
+          addressTownOrCity: orderJson.shipping.city || '',
+          stateOrCounty: orderJson.shipping.state || '',
+          postalOrZipCode: orderJson.shipping.postal_code,
+          destinationCountryCode: orderJson.shipping.country_code || '',
           payment: 'InvoiceMe',
           qualityLevel: 'Pro',
-          mobileTelephone: shipping.phone
+          mobileTelephone: orderJson.shipping.phone || ''
         })
       })
       const data = await res.json()
@@ -59,12 +60,14 @@ class CustomStripeCheckout extends React.Component {
       billingAddress={this.props.billingAddress}
       currency={this.props.currency}
       description={this.props.description}
+      frame={this.props.frame}
       locale={this.props.locale}
       name={this.props.name}
       panelLabel={this.props.panelLabel}
       reconfigureOnUpdate={this.props.reconfigureOnUpdate}
       selected={this.props.selected}
       shippingAddress={this.props.shippingAddress}
+      size={this.props.size}
       stripeKey={this.props.stripeKey}
       token={this.onToken}
       triggerEvent={this.props.triggerEvent}

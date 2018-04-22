@@ -4,6 +4,7 @@ module.exports.handler = (event, context, callback) => {
     const requestBody = JSON.parse(event.body)
     // Order information (from Stripe Checkout)
     const orderParams = requestBody.order
+    console.log(orderParams)
 
     return pwinty.createOrder(orderParams, function (err, order) {
         
