@@ -36,15 +36,15 @@ class CustomStripeCheckout extends React.Component {
         body: JSON.stringify({
           frame: this.props.frame,
           size: this.props.size,
-          recipientName: orderJson.shipping.name,
-          address1: orderJson.shipping.line1,
-          addressTownOrCity: orderJson.shipping.city || '',
-          stateOrCounty: orderJson.shipping.state || '',
-          postalOrZipCode: orderJson.shipping.postal_code,
-          destinationCountryCode: orderJson.shipping.country_code || '',
+          recipientName: orderJson.order.shipping.name,
+          address1: orderJson.order.shipping.line1,
+          addressTownOrCity: orderJson.order.shipping.city || '',
+          stateOrCounty: orderJson.order.shipping.state || '',
+          postalOrZipCode: orderJson.order.shipping.postal_code,
+          destinationCountryCode: orderJson.order.shipping.country_code || 'GB',
           payment: 'InvoiceMe',
           qualityLevel: 'Pro',
-          mobileTelephone: orderJson.shipping.phone || ''
+          mobileTelephone: orderJson.order.shipping.phone || ''
         })
       })
       const data = await res.json()

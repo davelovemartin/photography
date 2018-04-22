@@ -59,49 +59,48 @@ return /******/ (function(modules) { // webpackBootstrap
 	var pwinty = __webpack_require__(1)(("b3e6f775-062a-49ed-acce-9c634480bbbc"), ("1e06e880-1240-4139-b28c-81bcb1841b8a"), 'https://sandbox.pwinty.com:443');
 	
 	module.exports.handler = function (event, context, callback) {
-	    var order = JSON.parse(event.body);
+	    var stripeOrder = JSON.parse(event.body);
 	    // Order information (from Stripe Checkout)
-	    console.log(order);
-	    // return pwinty.createOrder(orderParams, function (err, order) {
+	    console.log(stripeOrder);
+	    return pwinty.createOrder(stripeOrder, function (err, order) {
 	
-	    // var photo = {
-	    //     type: "4x4",
-	    //     url: "",
-	    //     copies: "2",
-	    //     sizing: "ShrinkToExactFit",
-	    //     priceToUser: "450"
-	    // }
+	        var photo = {
+	            type: "4x4",
+	            url: "",
+	            copies: "2",
+	            sizing: "ShrinkToExactFit",
+	            priceToUser: "450"
+	        };
 	
-	    // pwinty.addPhotoToOrder(order.id, photo, function (err, order) {
-	    //     console.log('photo added');
-	    // });
-	
-	    // }).then((order) => {
-	    //     const response = {
-	    //         statusCode: 200,
-	    //         headers: {
-	    //           'Access-Control-Allow-Origin': '*'
-	    //         },
-	    //         body: JSON.stringify({
-	    //             message: `Order processed succesfully!`,
-	    //             order
-	    //         })
-	    //     }
-	    //     callback(null, response)
-	    // })
-	    // .catch((err) => { // Error response
-	    //     console.log(err)
-	    //     const response = {
-	    //     statusCode: 500,
-	    //     headers: {
-	    //         'Access-Control-Allow-Origin': '*'
-	    //     },
-	    //     body: JSON.stringify({
-	    //         error: err.message
-	    //     })
-	    // }
-	    // callback(null, response)
-	    // })
+	        pwinty.addPhotoToOrder(order.id, photo, function (err, order) {
+	            console.log('photo added');
+	        });
+	    }).then(function (order) {
+	        var response = {
+	            statusCode: 200,
+	            headers: {
+	                'Access-Control-Allow-Origin': '*'
+	            },
+	            body: JSON.stringify({
+	                message: 'Order processed succesfully!',
+	                order: order
+	            })
+	        };
+	        callback(null, response);
+	    }).catch(function (err) {
+	        // Error response
+	        console.log(err);
+	        var response = {
+	            statusCode: 500,
+	            headers: {
+	                'Access-Control-Allow-Origin': '*'
+	            },
+	            body: JSON.stringify({
+	                error: err.message
+	            })
+	        };
+	        callback(null, response);
+	    });
 	};
 
 /***/ }),
