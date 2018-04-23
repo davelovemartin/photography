@@ -4,32 +4,32 @@ module.exports.handler = (event, context, callback) => {
     const stripeOrder = JSON.parse(event.body)
     // Order information (from Stripe Checkout)
     console.log(stripeOrder)
-    return pwinty.createOrder(stripeOrder, function (err, order) {
-        
-    var photo = {
-        type: "4x4",
-        url: "",
-        copies: "2",
-        sizing: "ShrinkToExactFit",
-        priceToUser: "450"
-    }
-
-    pwinty.addPhotoToOrder(order.id, photo, function (err, order) {
-        console.log('photo added');
-    });
-
+    return pwinty.createOrder(stripeOrder, (err, order) => {  
+        return JSON.parse(order)
     }).then((order) => {
-        const response = {
-            statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-                message: `Order processed succesfully!`,
-                order
-            })
+        var photo = {
+            type: "4x4",
+            url: "",
+            copies: "2",
+            sizing: "ShrinkToExactFit",
+            priceToUser: "450"
         }
-        callback(null, response)
+
+        return pwinty.addPhotoToOrder(order.id, photo, () => {
+            console.log('photo added');
+        }).then((phorder) => {
+            const response = {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    message: `Order processed succesfully!`,
+                    phorder
+                })
+            }
+            callback(null, response)
+        })
     })
     .catch((err) => { // Error response
         console.log(err)

@@ -63,7 +63,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Order information (from Stripe Checkout)
 	    console.log(stripeOrder);
 	    return pwinty.createOrder(stripeOrder, function (err, order) {
-	
+	        return JSON.parse(order);
+	    }).then(function (order) {
 	        var photo = {
 	            type: "4x4",
 	            url: "",
@@ -72,21 +73,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	            priceToUser: "450"
 	        };
 	
-	        pwinty.addPhotoToOrder(order.id, photo, function (err, order) {
+	        return pwinty.addPhotoToOrder(order.id, photo, function () {
 	            console.log('photo added');
+	        }).then(function (phorder) {
+	            var response = {
+	                statusCode: 200,
+	                headers: {
+	                    'Access-Control-Allow-Origin': '*'
+	                },
+	                body: JSON.stringify({
+	                    message: 'Order processed succesfully!',
+	                    phorder: phorder
+	                })
+	            };
+	            callback(null, response);
 	        });
-	    }).then(function (order) {
-	        var response = {
-	            statusCode: 200,
-	            headers: {
-	                'Access-Control-Allow-Origin': '*'
-	            },
-	            body: JSON.stringify({
-	                message: 'Order processed succesfully!',
-	                order: order
-	            })
-	        };
-	        callback(null, response);
 	    }).catch(function (err) {
 	        // Error response
 	        console.log(err);
