@@ -4,9 +4,8 @@ module.exports.handler = (event, context, callback) => {
     const stripeOrder = JSON.parse(event.body)
     // Order information (from Stripe Checkout)
     console.log(stripeOrder)
-    return pwinty.createOrder(stripeOrder, (err, order) => {  
-        return JSON.parse(order)
-    }).then((order) => {
+    return pwinty.createOrder(stripeOrder, function (err, order) {  
+        
         var photo = {
             type: "4x4",
             url: "",
@@ -15,9 +14,9 @@ module.exports.handler = (event, context, callback) => {
             priceToUser: "450"
         }
 
-        return pwinty.addPhotoToOrder(order.id, photo, () => {
+        return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
             console.log('photo added');
-        }).then((phorder) => {
+
             const response = {
                 statusCode: 200,
                 headers: {

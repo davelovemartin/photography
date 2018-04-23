@@ -63,8 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // Order information (from Stripe Checkout)
 	    console.log(stripeOrder);
 	    return pwinty.createOrder(stripeOrder, function (err, order) {
-	        return JSON.parse(order);
-	    }).then(function (order) {
+	
 	        var photo = {
 	            type: "4x4",
 	            url: "",
@@ -73,9 +72,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            priceToUser: "450"
 	        };
 	
-	        return pwinty.addPhotoToOrder(order.id, photo, function () {
+	        return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
 	            console.log('photo added');
-	        }).then(function (phorder) {
+	
 	            var response = {
 	                statusCode: 200,
 	                headers: {
