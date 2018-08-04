@@ -130,40 +130,22 @@ class Product extends React.Component {
   handleSizeClick (value) {
     const sizes = data.size
     const s = sizes.filter(size => size.id === value)
-    if (value !== 'dd') {
-      this.setState({
-        print: true,
-        size: true,   
-        selectedSize: {
-          id: s[0].id,
-          description: s[0].description,
-          price: s[0].price
-        }
-      })
-      if (this.state.selectedFrame.id){
-        this.setState({
-          activateButton: true
-        })
-      } else {
-        this.setState({
-          activateButton: false
-        })
+    this.setState({
+      print: true,
+      size: true,   
+      selectedSize: {
+        id: s[0].id,
+        description: s[0].description,
+        price: s[0].price
       }
+    })
+    if (this.state.selectedFrame.id){
+      this.setState({
+        activateButton: true
+      })
     } else {
       this.setState({
-        print: false, 
-        size: true,    
-        selectedSize: {
-          id: s[0].id,
-          description: s[0].description,
-          price: s[0].price
-        },
-        selectedFrame: {
-          id: '',
-          description: '',
-          price: 0
-        },
-        activateButton: true
+        activateButton: false
       })
     }
   }
@@ -234,14 +216,6 @@ class Product extends React.Component {
                   value={'a2'}
                   selected={true}
                   title='A2'
-                />
-                <SizeButtonGroup
-                  checked={this.state.selectedSize.id === 'dd'}
-                  onClick={this.handleSizeClick}
-                  resolutions={this.props.data.downloadPng.childImageSharp.resolutions}
-                  value={'dd'}
-                  selected={true}
-                  title='Download'
                 />
               </Flex>
             </div>
@@ -341,12 +315,6 @@ const data = {
       title: 'A3 Print',
       description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
       price: 1500
-    },
-    {
-      id: 'dd',
-      title: 'Digital Download',
-      description: 'A full resolution jpg file and licence for X.',
-      price: 4900
     }
   ],
   frame: [
@@ -361,9 +329,6 @@ const data = {
         },
         { 
           id: 'a3',
-          price: 0
-        },
-        { id: 'dd',
           price: 0
         }
       ]
@@ -380,10 +345,6 @@ const data = {
         {
           id: 'a3',
           price: 1200
-        },
-        {
-          id: 'dd',
-          price: 0
         }
       ]
     },
@@ -399,10 +360,6 @@ const data = {
         {
           id: 'a3',
           price: 2700
-        },
-        {
-          id: 'dd',
-          price: 0
         }
       ]
     }
