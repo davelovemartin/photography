@@ -1,4 +1,4 @@
 {
-  "main.js": "pwinty_order.js",
-  "main.js.map": "pwinty_order.js.map"
+  "main.js": "stripe_order.js",
+  "main.js.map": "stripe_order.js.map"
 }

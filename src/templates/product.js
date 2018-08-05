@@ -286,7 +286,7 @@ class Product extends React.Component {
                   shippingAddress
                   size={this.state.selectedSize.id}
                   selected={this.state.activateButton}
-                  stripeKey={process.env.STRIPE_PUBLIC_KEY}
+                  stripeKey={this.props.data.site.siteMetadata.stripe}
                   triggerEvent={'onClick'}
                   zipCode
                 />
@@ -417,7 +417,8 @@ export const query = graphql`
         location,
         name,
         fb,
-        instagram
+        instagram,
+        stripe
       }
     }
     contentfulProduct(title: { eq: $title } ) {
