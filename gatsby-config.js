@@ -9,7 +9,8 @@ module.exports = {
     location: 'https://chrishill.gallery',
     name: 'Chris Hill',
     fb: 'https://www.facebook.com/chrishillphotographs',
-    instagram: 'https://www.instagram.com/chill1983'
+    instagram: 'https://www.instagram.com/chill1983',
+    stripe: process.env.STRIPE_PUBLIC_KEY
   },
   plugins: [
     `gatsby-plugin-react-helmet`,{
