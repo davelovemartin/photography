@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var stripe = __webpack_require__(1)(("sk_test_Ea6P7wunnOuSk5ZMlk1n5dCK"));
+	var stripe = __webpack_require__(1)(("sk_test_xGCYz9aDhmGn36XxeWyg18EU"));
 	
 	module.exports.handler = function (event, context, callback) {
 	  var requestBody = JSON.parse(event.body);
