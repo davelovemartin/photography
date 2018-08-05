@@ -28,7 +28,7 @@ class CustomStripeCheckout extends React.Component {
           }
         })
       })
-
+      console.log(process.env.STRIPE_PUBLIC_KEY)
       let orderJson = await response.json()
       console.log(orderJson)
     //   const res = await fetch(process.env.PWINTY_ORDER_URL, {
