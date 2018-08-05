@@ -286,7 +286,7 @@ class Product extends React.Component {
                   shippingAddress
                   size={this.state.selectedSize.id}
                   selected={this.state.activateButton}
-                  stripeKey={process.env.NODE_ENV === 'development' ? process.env.STRIPE_PUBLIC_KEY : process.env.development.STRIPE_PUBLIC_KEY }
+                  stripeKey={process.env.NODE_ENV === 'development' ? process.env.STRIPE_PUBLIC_KEY : env.development.STRIPE_PUBLIC_KEY }
                   triggerEvent={'onClick'}
                   zipCode
                 />
