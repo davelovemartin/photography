@@ -1,12 +1,12 @@
 {
   "assetsByChunkName": {
     "commons": [
-      "pwinty_order.js",
-      "pwinty_order.js.map"
+      "stripe_order.js",
+      "stripe_order.js.map"
     ],
     "main": [
-      "pwinty_order.js",
-      "pwinty_order.js.map"
+      "stripe_order.js",
+      "stripe_order.js.map"
     ]
   }
 }
