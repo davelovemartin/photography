@@ -246,18 +246,18 @@ class Product extends React.Component {
                   title={'None'}
                 />
                 <FrameButtonGroup
-                  checked={this.state.selectedFrame.id === 'standard'}
+                  checked={this.state.selectedFrame.id === 'black'}
                   onClick={this.handleFrameClick}
-                  resolutions={this.props.data.budgetPng.childImageSharp.resolutions}
-                  value='standard'
-                  title={'Spacer'}
+                  resolutions={this.props.data.blackPng.childImageSharp.resolutions}
+                  value='black'
+                  title={'Black'}
                 />
                 <FrameButtonGroup
-                  checked={this.state.selectedFrame.id === 'deluxe'}
+                  checked={this.state.selectedFrame.id === 'white'}
                   onClick={this.handleFrameClick}
-                  resolutions={this.props.data.deluxePng.childImageSharp.resolutions}
-                  value='deluxe'
-                  title={'Surface'}
+                  resolutions={this.props.data.whitePng.childImageSharp.resolutions}
+                  value='white'
+                  title={'White'}
                 />
               </Flex>
             </Fade>
@@ -307,14 +307,14 @@ const data = {
     {
       id: 'a2',
       title: 'A2 Print',
-      description: 'An A2-sized print (420mm x 594mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 2400
+      description: 'An A2-sized print (420mm x 594mm)',
+      price: 5000
     },
     {
       id: 'a3',
       title: 'A3 Print',
-      description: 'An A3-sized print (297mm x 420mm) on a semi-gloss paper, velvet finish that guarantees long-lasting, fade-resistant prints. The paper has deeper colour saturation than matt paper, is thicker than traditional consumer papers and is more resistant to fingerprints and smudges.',
-      price: 1500
+      description: 'An A3-sized print (297mm x 420mm)',
+      price: 4000
     }
   ],
   frame: [
@@ -334,32 +334,32 @@ const data = {
       ]
     },
     {
-      id: 'standard',
-      title: 'Spacer Frame',
-      description: 'Contemporary hand-stained finish made from solid ash, delivered fully strung ready for hanging',
+      id: 'black',
+      title: 'Black',
+      description: 'A black box frame with a 1.4mm mount',
       prices: [
         {
           id: 'a2',
-          price: 1600
+          price: 5000
         },
         {
           id: 'a3',
-          price: 1200
+          price: 4000
         }
       ]
     },
     {
-      id: 'deluxe',
-      title: 'Surface frame',
-      description: 'The Surface frame provides a subtle, contemporary surround. The frame is very thin, has a smooth satin texture and comes unglazed, with the image front mounted flush to the surface edge.',
+      id: 'white',
+      title: 'White',
+      description: 'A white box frame with a 1.4mm mount',
       prices: [
         {
           id: 'a2',
-          price: 3600
+          price: 5000
         },
         {
           id: 'a3',
-          price: 2700
+          price: 4000
         }
       ]
     }
@@ -396,14 +396,14 @@ export const query = graphql`
         } 
       }
     }
-    budgetPng: file(relativePath: { eq: "budget.png" }) {
+    blackPng: file(relativePath: { eq: "black.png" }) {
       childImageSharp {
         resolutions(width: 112, height: 120) {
           ...GatsbyImageSharpResolutions
         } 
       }
     }
-    deluxePng: file(relativePath: { eq: "deluxe.png" }) {
+    whitePng: file(relativePath: { eq: "white.png" }) {
       childImageSharp {
         resolutions(width: 112, height: 120) {
           ...GatsbyImageSharpResolutions
