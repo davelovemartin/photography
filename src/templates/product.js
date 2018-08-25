@@ -192,7 +192,9 @@ class Product extends React.Component {
                   alt={this.props.data.contentfulProduct.picture.description}
                 />
               </Box>
+              <p>{this.props.data.contentfulProduct.location}</p>
               <p>{this.props.data.contentfulProduct.description.description}</p>
+              <p>Printed on {this.props.data.contentfulProduct.paper.paperType}  {this.props.data.contentfulProduct.paper.weight}gsm paper. {this.props.data.contentfulProduct.paper.description}</p>
           </Box>
           <Box
               width={[1, 1, '24rem']}
@@ -424,6 +426,12 @@ export const query = graphql`
     contentfulProduct(title: { eq: $title } ) {
       title
       description {
+        description
+      }
+      location
+      paper {
+        weight
+        paperType
         description
       }
       picture {
