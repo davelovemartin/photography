@@ -278,7 +278,7 @@ class Product extends React.Component {
                   amount={this.state.selectedSize.price + this.state.selectedFrame.price}
                   billingAddress
                   currency='GBP'
-                  description={this.state.selectedSize.description + this.state.selectedSize.description}
+                  description={this.state.selectedSize.description + ' ' + this.state.selectedFrame.description}
                   frame={this.state.selectedFrame.id}
                   locale='en'
                   name={this.props.data.site.siteMetadata.name}
