@@ -86,7 +86,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	            })
 	        });
 	        var orderId = yield res.json();
-	        console.log(json);
+	        console.log(orderId);
+	        var response = {
+	            statusCode: 200,
+	            headers: {
+	                'Access-Control-Allow-Origin': '*'
+	            },
+	            body: JSON.stringify({
+	                message: orderId
+	            })
+	        };
+	        callback(null, response);
 	
 	        // 
 	        // return pwinty.createOrder(stripeOrder, function (err, order) {  
@@ -101,19 +111,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	        //     return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
 	        //         console.log('photo added');
-	
-	        //         const response = {
-	        //             statusCode: 200,
-	        //             headers: {
-	        //                 'Access-Control-Allow-Origin': '*'
-	        //             },
-	        //             body: JSON.stringify({
-	        //                 message: `Order processed succesfully!`,
-	        //                 phorder
-	        //             })
-	        //         }
-	        //         callback(null, response)
-	        //     })
 	        // })
 	        // .catch((err) => { // Error response
 	        //     console.log(err)
