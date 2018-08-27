@@ -3,6 +3,7 @@ import StripeCheckout from 'react-stripe-checkout'
 import Button from './button'
 import { navigateTo } from 'gatsby-link'
 
+
 class CustomStripeCheckout extends React.Component {
   constructor(props) {
     super(props)
@@ -50,6 +51,7 @@ class CustomStripeCheckout extends React.Component {
       // const data = await res.json()
       // console.log(data)
       navigateTo('/order')
+
     } catch (err) {
       alert(err)
     }
