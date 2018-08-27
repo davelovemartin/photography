@@ -25,7 +25,17 @@ module.exports.handler = async (event, context, callback) => {
         })
     })
     const orderId = await res.json();
-    console.log(json)
+    console.log(orderId)
+    const response = {
+        statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+            message: orderId
+        })
+    }
+    callback(null, response)
 
     // 
     // return pwinty.createOrder(stripeOrder, function (err, order) {  
@@ -40,19 +50,6 @@ module.exports.handler = async (event, context, callback) => {
 
     //     return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
     //         console.log('photo added');
-
-    //         const response = {
-    //             statusCode: 200,
-    //             headers: {
-    //                 'Access-Control-Allow-Origin': '*'
-    //             },
-    //             body: JSON.stringify({
-    //                 message: `Order processed succesfully!`,
-    //                 phorder
-    //             })
-    //         }
-    //         callback(null, response)
-    //     })
     // })
     // .catch((err) => { // Error response
     //     console.log(err)
