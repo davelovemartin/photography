@@ -31,7 +31,7 @@ class OrderPage extends React.Component {
                     >
                     <h2>Order Confirmation</h2>
                     <p
-                        children={this.state.message}
+                        children={'Thanks very much for your order! You should receive an email confirming the order, but if you have any questions please drop me a line using the contact form and I’ll get back to you'}
                     />
                     </Box>
                 </div>
