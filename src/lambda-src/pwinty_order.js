@@ -1,46 +1,70 @@
-const pwinty = require('pwinty')(process.env.PWINTY_API_KEY, process.env.PWINTY_MERCHANT_ID, 'https://sandbox.pwinty.com:443')
+const fetch = require("node-fetch")
 
-module.exports.handler = (event, context, callback) => {
+module.exports.handler = async (event, context, callback) => {
     const stripeOrder = JSON.parse(event.body)
     // Order information (from Stripe Checkout)
-    console.log(stripeOrder)
-    return pwinty.createOrder(stripeOrder, function (err, order) {  
-        
-        var photo = {
-            type: "4x4",
-            url: "",
-            copies: "2",
-            sizing: "ShrinkToExactFit",
-            priceToUser: "450"
-        }
+    console.log('Stripe Order: ' + stripeOrder)
 
-        return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
-            console.log('photo added');
-
-            const response = {
-                statusCode: 200,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    message: `Order processed succesfully!`,
-                    phorder
-                })
-            }
-            callback(null, response)
-        })
-    })
-    .catch((err) => { // Error response
-        console.log(err)
-        const response = {
-        statusCode: 500,
+    const res = fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
+        method: 'POST',
         headers: {
-            'Access-Control-Allow-Origin': '*'
+            "X-Pwinty-MerchantId": process.env.PWINTY_MERCHANT_ID,
+            "X-Pwinty-REST-API-Key": process.env.PWINTY_API_KEY,
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({
-            error: err.message
+        body: JSON.stringify({ 
+            recipientName: stripeOrder.recipientName,
+            Address1: stripeOrder.address1,
+            addressTownOrCity: stripeOrder.addressTownOrCity,
+            stateOrCounty: stripeOrder.stateOrCounty,
+            postalOrZipCode: stripeOrder.postalOrZipCode,
+            email: stripeOrder.email,
+            countryCode: stripeOrder.destinationCountryCode,
+            preferredShippingMethod: 'CHEAPEST',
+            mobileTelephone: stripeOrder.mobileTelephone
         })
-    }
-    callback(null, response)
     })
+    const orderId = await res.json();
+    console.log(json)
+
+    // 
+    // return pwinty.createOrder(stripeOrder, function (err, order) {  
+        
+    //     var photo = {
+    //         type: "4x4",
+    //         url: "",
+    //         copies: "2",
+    //         sizing: "ShrinkToExactFit",
+    //         priceToUser: "450"
+    //     }
+
+    //     return pwinty.addPhotoToOrder(order.id, photo, function (err, result) {
+    //         console.log('photo added');
+
+    //         const response = {
+    //             statusCode: 200,
+    //             headers: {
+    //                 'Access-Control-Allow-Origin': '*'
+    //             },
+    //             body: JSON.stringify({
+    //                 message: `Order processed succesfully!`,
+    //                 phorder
+    //             })
+    //         }
+    //         callback(null, response)
+    //     })
+    // })
+    // .catch((err) => { // Error response
+    //     console.log(err)
+    //     const response = {
+    //     statusCode: 500,
+    //     headers: {
+    //         'Access-Control-Allow-Origin': '*'
+    //     },
+    //     body: JSON.stringify({
+    //         error: err.message
+    //     })
+    // }
+    // callback(null, response)
+    // })
 }
