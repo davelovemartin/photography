@@ -31,7 +31,7 @@ module.exports.handler = async (event, context, callback) => {
         method: 'POST',
         headers: pwintyHeaders,
         body: JSON.stringify({ 
-            sku: 'SKU CH1',
+            sku: 'P-PHO-MG-420X594',
             url: 'https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN,
             sizing: 'crop',
             copies: 1,

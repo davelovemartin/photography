@@ -91,7 +91,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            method: 'POST',
 	            headers: pwintyHeaders,
 	            body: JSON.stringify({
-	                sku: 'SKU CH1',
+	                sku: 'P-PHO-MG-420X594',
 	                url: 'https://cdn.contentful.com/spaces/' + ("x77ncy6osjfp") + '/assets/' + stripeOrder.assetId + '?access_token=' + ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0"),
 	                sizing: 'crop',
 	                copies: 1,
