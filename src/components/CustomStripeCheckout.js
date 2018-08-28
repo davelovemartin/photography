@@ -37,6 +37,7 @@ class CustomStripeCheckout extends React.Component {
         body: JSON.stringify({
           frame: this.props.frame,
           size: this.props.size,
+          assetId: '5yelUkfroIC62wYEKg4KgW',
           recipientName: orderJson.order.shipping.name,
           address1: orderJson.order.shipping.line1,
           addressTownOrCity: orderJson.order.shipping.city || '',

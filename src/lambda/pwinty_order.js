@@ -54,7 +54,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { step("next", value); }, function (err) { step("throw", err); }); } } return step("next"); }); }; }
 	
@@ -62,15 +62,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	module.exports.handler = function () {
 	    var _ref = _asyncToGenerator(function* (event, context, callback) {
+	        // stripe details from checkout
 	        var stripeOrder = JSON.parse(event.body);
-	
-	        var order = yield fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
+	        // headers
+	        var pwintyHeaders = {
+	            "X-Pwinty-MerchantId": ("1e06e880-1240-4139-b28c-81bcb1841b8a"),
+	            "X-Pwinty-REST-API-Key": ("b3e6f775-062a-49ed-acce-9c634480bbbc"),
+	            "Content-Type": "application/json"
+	            //create an order
+	        };var order = yield fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
 	            method: 'POST',
-	            headers: {
-	                "X-Pwinty-MerchantId": ("1e06e880-1240-4139-b28c-81bcb1841b8a"),
-	                "X-Pwinty-REST-API-Key": ("b3e6f775-062a-49ed-acce-9c634480bbbc"),
-	                "Content-Type": "application/json"
-	            },
+	            headers: pwintyHeaders,
 	            body: JSON.stringify({
 	                recipientName: stripeOrder.recipientName,
 	                Address1: stripeOrder.address1,
@@ -83,15 +85,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	                mobileTelephone: stripeOrder.mobileTelephone
 	            })
 	        });
-	        var json = yield order.json();
-	        console.log(json);
+	        var orderJson = yield order.json();
+	        console.log(orderJson);
+	        var space = ("x77ncy6osjfp");
+	        var accessToken = ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0");
+	
+	        var image = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.id + '/images', {
+	            method: 'POST',
+	            headers: pwintyHeaders,
+	            body: JSON.stringify({
+	                sku: 'SKU CH1',
+	                url: 'https://cdn.contentful.com/spaces/' + space + '/assets/' + stripeOrder.assetId + '?access_token=' + accessToken,
+	                sizing: 'crop',
+	                copies: 1,
+	                attributes: { frame: 'box' }
+	            })
+	        });
+	        var imageJson = yield image.json();
+	        console.log(imageJson);
+	
 	        var response = {
 	            statusCode: 200,
 	            headers: {
 	                'Access-Control-Allow-Origin': '*'
 	            },
 	            body: JSON.stringify({
-	                message: order
+	                message: imageJson
 	            })
 	        };
 	        callback(null, response);

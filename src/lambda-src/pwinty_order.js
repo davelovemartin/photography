@@ -1,15 +1,18 @@
 const fetch = require("node-fetch")
 
 module.exports.handler = async (event, context, callback) => {
+    // stripe details from checkout
     const stripeOrder = JSON.parse(event.body)
-    
+    // headers
+    const pwintyHeaders = {
+        "X-Pwinty-MerchantId": process.env.PWINTY_MERCHANT_ID,
+        "X-Pwinty-REST-API-Key": process.env.PWINTY_API_KEY,
+        "Content-Type": "application/json"
+    }
+    //create an order
     const order = await fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
         method: 'POST',
-        headers: {
-            "X-Pwinty-MerchantId": process.env.PWINTY_MERCHANT_ID,
-            "X-Pwinty-REST-API-Key": process.env.PWINTY_API_KEY,
-            "Content-Type": "application/json"
-        },
+        headers: pwintyHeaders,
         body: JSON.stringify({ 
             recipientName: stripeOrder.recipientName,
             Address1: stripeOrder.address1,
@@ -22,15 +25,32 @@ module.exports.handler = async (event, context, callback) => {
             mobileTelephone: stripeOrder.mobileTelephone
         })
     });
-    const json = await order.json()
-    console.log(json)
+    const orderJson = await order.json()
+    console.log(orderJson)
+    const space = process.env.CONTENTFUL_SPACE_ID
+    const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN
+      
+    const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.id + '/images', {
+        method: 'POST',
+        headers: pwintyHeaders,
+        body: JSON.stringify({ 
+            sku: 'SKU CH1',
+            url: 'https://cdn.contentful.com/spaces/' + space + '/assets/' + stripeOrder.assetId +'?access_token=' + accessToken,
+            sizing: 'crop',
+            copies: 1,
+            attributes: { frame: 'box' }
+        })
+    })
+    const imageJson = await image.json()
+    console.log(imageJson)
+
     const response = {
         statusCode: 200,
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-            message: order
+            message: imageJson
         })
     }
     callback(null, response)
