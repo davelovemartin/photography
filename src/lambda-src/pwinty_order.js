@@ -2,10 +2,8 @@ const fetch = require("node-fetch")
 
 module.exports.handler = async (event, context, callback) => {
     const stripeOrder = JSON.parse(event.body)
-    // Order information (from Stripe Checkout)
-    console.log('Stripe Order: ' + stripeOrder)
-
-    const res = fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
+    
+    const order = await fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
         method: 'POST',
         headers: {
             "X-Pwinty-MerchantId": process.env.PWINTY_MERCHANT_ID,
@@ -23,16 +21,16 @@ module.exports.handler = async (event, context, callback) => {
             preferredShippingMethod: 'CHEAPEST',
             mobileTelephone: stripeOrder.mobileTelephone
         })
-    })
-    const orderId = await res.json();
-    console.log(orderId)
+    });
+    const json = await order.json()
+    console.log(json)
     const response = {
         statusCode: 200,
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-            message: orderId
+            message: order
         })
     }
     callback(null, response)
