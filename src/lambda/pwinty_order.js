@@ -91,11 +91,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            method: 'POST',
 	            headers: pwintyHeaders,
 	            body: JSON.stringify({
-	                sku: 'P-PHO-MG-420X594',
+	                sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
 	                url: 'https://cdn.contentful.com/spaces/' + ("x77ncy6osjfp") + '/assets/' + stripeOrder.assetId + '?access_token=' + ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0"),
 	                sizing: 'crop',
 	                copies: 1,
-	                attributes: { frame: 'box' }
+	                attributes: { FrameColour: 'white' }
 	            })
 	        });
 	        var imageJson = yield image.json();

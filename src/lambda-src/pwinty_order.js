@@ -31,11 +31,11 @@ module.exports.handler = async (event, context, callback) => {
         method: 'POST',
         headers: pwintyHeaders,
         body: JSON.stringify({ 
-            sku: 'P-PHO-MG-420X594',
+            sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
             url: 'https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN,
             sizing: 'crop',
             copies: 1,
-            attributes: { frame: 'box' }
+            attributes: { FrameColour: 'white' }
         })
     })
     const imageJson = await image.json()
