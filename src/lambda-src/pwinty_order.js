@@ -26,16 +26,13 @@ module.exports.handler = async (event, context, callback) => {
         })
     });
     const orderJson = await order.json()
-    console.log(orderJson)
-    const space = process.env.CONTENTFUL_SPACE_ID
-    const accessToken = process.env.CONTENTFUL_ACCESS_TOKEN
-      
-    const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.id + '/images', {
+    console.log(orderJson)      
+    const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
         method: 'POST',
         headers: pwintyHeaders,
         body: JSON.stringify({ 
             sku: 'SKU CH1',
-            url: 'https://cdn.contentful.com/spaces/' + space + '/assets/' + stripeOrder.assetId +'?access_token=' + accessToken,
+            url: 'https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN,
             sizing: 'crop',
             copies: 1,
             attributes: { frame: 'box' }

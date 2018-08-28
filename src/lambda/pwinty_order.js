@@ -87,15 +87,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        var orderJson = yield order.json();
 	        console.log(orderJson);
-	        var space = ("x77ncy6osjfp");
-	        var accessToken = ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0");
-	
-	        var image = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.id + '/images', {
+	        var image = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
 	            method: 'POST',
 	            headers: pwintyHeaders,
 	            body: JSON.stringify({
 	                sku: 'SKU CH1',
-	                url: 'https://cdn.contentful.com/spaces/' + space + '/assets/' + stripeOrder.assetId + '?access_token=' + accessToken,
+	                url: 'https://cdn.contentful.com/spaces/' + ("x77ncy6osjfp") + '/assets/' + stripeOrder.assetId + '?access_token=' + ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0"),
 	                sizing: 'crop',
 	                copies: 1,
 	                attributes: { frame: 'box' }
