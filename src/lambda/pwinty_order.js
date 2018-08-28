@@ -63,10 +63,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports.handler = function () {
 	    var _ref = _asyncToGenerator(function* (event, context, callback) {
 	        var stripeOrder = JSON.parse(event.body);
-	        // Order information (from Stripe Checkout)
-	        console.log('Stripe Order: ' + stripeOrder);
 	
-	        var res = fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
+	        var order = yield fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
 	            method: 'POST',
 	            headers: {
 	                "X-Pwinty-MerchantId": ("1e06e880-1240-4139-b28c-81bcb1841b8a"),
@@ -85,15 +83,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	                mobileTelephone: stripeOrder.mobileTelephone
 	            })
 	        });
-	        var orderId = yield res.json();
-	        console.log(orderId);
+	        var json = yield order.json();
+	        console.log(json);
 	        var response = {
 	            statusCode: 200,
 	            headers: {
 	                'Access-Control-Allow-Origin': '*'
 	            },
 	            body: JSON.stringify({
-	                message: orderId
+	                message: order
 	            })
 	        };
 	        callback(null, response);
