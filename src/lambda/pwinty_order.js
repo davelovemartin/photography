@@ -86,13 +86,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            })
 	        });
 	        var orderJson = yield order.json();
-	        console.log(orderJson);
+	        var assetUrl = yield fetch('https://cdn.contentful.com/spaces/' + ("x77ncy6osjfp") + '/assets/' + stripeOrder.assetId + '?access_token=' + ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0"));
+	        var assetJson = yield assetUrl.json();
 	        var image = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
 	            method: 'POST',
 	            headers: pwintyHeaders,
 	            body: JSON.stringify({
 	                sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
-	                url: 'https://cdn.contentful.com/spaces/' + ("x77ncy6osjfp") + '/assets/' + stripeOrder.assetId + '?access_token=' + ("6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0"),
+	                url: assetJson.fields.file.url,
 	                sizing: 'crop',
 	                copies: 1,
 	                attributes: { FrameColour: 'white' }
