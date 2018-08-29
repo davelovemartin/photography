@@ -93,7 +93,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            headers: pwintyHeaders,
 	            body: JSON.stringify({
 	                sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
-	                url: assetJson.fields.file.url,
+	                url: 'https:' + assetJson.fields.file.url,
 	                sizing: 'crop',
 	                copies: 1,
 	                attributes: { FrameColour: 'white' }
