@@ -140,8 +140,16 @@ class Product extends React.Component {
       }
     })
     if (this.state.selectedFrame.id){
+      const frames = data.frame
+      const f = frames.filter(frame => frame.id === this.state.selectedFrame.id)
+      const p = f[0].prices.filter(price => price.id === value)
       this.setState({
-        activateButton: true
+        activateButton: true,
+        selectedFrame: {
+          id: f[0].id,
+          description: f[0].description,
+          price: p[0].price
+        }
       })
     } else {
       this.setState({
@@ -152,13 +160,13 @@ class Product extends React.Component {
   handleFrameClick (value) {
     const frames = data.frame
     const f = frames.filter(frame => frame.id === value)
-    const p = f[0].prices.filter(price => price.id === value)
+    const p = f[0].prices.filter(price => price.id === this.state.selectedSize.id)
     this.setState({
       activateButton: true,
       selectedFrame: {
         id: f[0].id,
         description: f[0].description,
-        price: f[0].prices[0].price
+        price: p[0].price
       }
     })
   }
@@ -278,7 +286,7 @@ class Product extends React.Component {
                   amount={this.state.selectedSize.price + this.state.selectedFrame.price}
                   billingAddress
                   currency='GBP'
-                  description={this.state.selectedSize.description + ' ' + this.state.selectedFrame.description}
+                  description={this.state.selectedSize.description + ' ' + this.props.data.contentfulProduct.title + ' ' + this.state.selectedFrame.description}
                   frame={this.state.selectedFrame.id}
                   locale='en'
                   name={this.props.data.site.siteMetadata.name}

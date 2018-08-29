@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var stripe = __webpack_require__(1)(("sk_test_xGCYz9aDhmGn36XxeWyg18EU"));
+	var stripe = __webpack_require__(1)((STRIPE_SECRET_KEY));
 	
 	module.exports.handler = function (event, context, callback) {
 	  var requestBody = JSON.parse(event.body);
@@ -3239,7 +3239,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    "object" !== "undefined";
 	
 	function env(key) {
-	    return hasEnvVariables ? ({"CONTENTFUL_ACCESS_TOKEN":"6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0","CONTENTFUL_SPACE_ID":"x77ncy6osjfp","PWINTY_API_KEY":"b3e6f775-062a-49ed-acce-9c634480bbbc","PWINTY_MERCHANT_ID":"1e06e880-1240-4139-b28c-81bcb1841b8a","PWINTY_ORDER_URL":"https://competent-brahmagupta-2bcbbd.netlify.com/.netlify/functions/pwinty_order","STRIPE_ORDER_URL":"https://chrishill.gallery/.netlify/functions/stripe_order","STRIPE_PUBLIC_KEY":"pk_test_eB4a4l725mvzPKT0uurOzt5C","STRIPE_SECRET_KEY":"sk_test_xGCYz9aDhmGn36XxeWyg18EU","NODE_ENV":"production","PUBLIC_DIR":"/Users/justanotherdavemartin/Projects/photography/public"})[key] : undefined;
+	    return hasEnvVariables ? ({"CONTENTFUL_ACCESS_TOKEN":"6fdf96f860ab5e01bc6fbc7d4c87910dfc1059a54b6455d59b31114faee94ab0","CONTENTFUL_SPACE_ID":"x77ncy6osjfp","PWINTY_API_KEY":"b3e6f775-062a-49ed-acce-9c634480bbbc","PWINTY_MERCHANT_ID":"1e06e880-1240-4139-b28c-81bcb1841b8a","PWINTY_ORDER_URL":"https://chrishill.gallery/.netlify/functions/pwinty_order","STRIPE_ORDER_URL":"https://chrishill.gallery/.netlify/functions/stripe_order","STRIPE_PUBLIC_KEY":"pk_test_eB4a4l725mvzPKT0uurOzt5C","STRIPE_SECRET_KEY":"sk_test_xGCYz9aDhmGn36XxeWyg18EU","NODE_ENV":"production","PUBLIC_DIR":"/Users/justanotherdavemartin/Projects/photography/public"})[key] : undefined;
 	}
 	
 	function getNativePromise() {
