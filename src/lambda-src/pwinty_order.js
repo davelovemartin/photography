@@ -9,41 +9,42 @@ module.exports.handler = async (event, context, callback) => {
         "X-Pwinty-REST-API-Key": process.env.PWINTY_API_KEY,
         "Content-Type": "application/json"
     }
-    //create an order
-    const order = await fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
-        method: 'POST',
-        headers: pwintyHeaders,
-        body: JSON.stringify({ 
-            recipientName: stripeOrder.recipientName,
-            Address1: stripeOrder.address1,
-            addressTownOrCity: stripeOrder.addressTownOrCity,
-            stateOrCounty: stripeOrder.stateOrCounty,
-            postalOrZipCode: stripeOrder.postalOrZipCode,
-            email: stripeOrder.email,
-            countryCode: stripeOrder.destinationCountryCode,
-            preferredShippingMethod: 'CHEAPEST',
-            mobileTelephone: stripeOrder.mobileTelephone
-        })
-    });
-    const orderJson = await order.json()
-    const assetUrl = await fetch('https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN)
-    const assetJson = await assetUrl.json()
-    const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
-        method: 'POST',
-        headers: pwintyHeaders,
-        body: JSON.stringify({ 
-            sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
-            url: 'https:' + assetJson.fields.file.url,
-            sizing: 'crop',
-            copies: 1,
-            attributes: { FrameColour: 'white' }
-        })
-    })
-    const imageJson = await image.json()
-    console.log(imageJson)
 
-    if (imageJson.statusText === "OK") {
-        const sbmt = fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+    try {
+        //create an order
+        const order = await fetch('https://sandbox.pwinty.com/v3.0/Orders/', {
+            method: 'POST',
+            headers: pwintyHeaders,
+            body: JSON.stringify({ 
+                recipientName: stripeOrder.recipientName,
+                Address1: stripeOrder.address1,
+                addressTownOrCity: stripeOrder.addressTownOrCity,
+                stateOrCounty: stripeOrder.stateOrCounty,
+                postalOrZipCode: stripeOrder.postalOrZipCode,
+                email: stripeOrder.email,
+                countryCode: stripeOrder.destinationCountryCode,
+                preferredShippingMethod: 'CHEAPEST',
+                mobileTelephone: stripeOrder.mobileTelephone
+            })
+        });
+        const orderJson = await order.json()
+        const assetUrl = await fetch('https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN)
+        const assetJson = await assetUrl.json()
+        const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
+            method: 'POST',
+            headers: pwintyHeaders,
+            body: JSON.stringify({ 
+                sku: 'FRA-BOX-HPL-MOUNT1-ACRY-A3',
+                url: 'https:' + assetJson.fields.file.url,
+                sizing: 'crop',
+                copies: 1,
+                attributes: { FrameColour: 'white' }
+            })
+        })
+        const imageJson = await image.json()
+        console.log(imageJson)
+
+        const sbmt = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
             method: 'POST',
             headers: pwintyHeaders,
             body: JSON.stringify({ 
@@ -51,7 +52,7 @@ module.exports.handler = async (event, context, callback) => {
             })
         })
         const sbmtJson = await sbmt.json()
-        const response = {
+        let response = {
             statusCode: 200,
             headers: {
                 'Access-Control-Allow-Origin': '*'
@@ -61,17 +62,16 @@ module.exports.handler = async (event, context, callback) => {
             })
         }
         callback(null, response)
-    } else {
-
-        console.log(err)
-        const response = {
-          statusCode: 500,
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({
-            error: err.message
-          })
+    } 
+    catch {
+        let response = {
+            statusCode: 500,
+            headers: {
+              'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+              error: err.message
+            })
         }
         callback(null, response)
     }
