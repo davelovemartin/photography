@@ -38,35 +38,40 @@ module.exports.handler = async (event, context, callback) => {
             copies: 1,
             attributes: { FrameColour: 'white' }
         })
-    }).then((res) => fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-            method: 'POST',
-            headers: pwintyHeaders,
-            body: JSON.stringify({ 
-                status: 'Submitted'
-            })
-        })).then((res) => {
-            const submitJson = await submit.json()
-            const response = {
-                statusCode: 200,
-                headers: {
-                    'Access-Control-Allow-Origin': '*'
-                },
-                body: JSON.stringify({
-                    message: submitJson
-                })
-            }
-            callback(null, response)
-        }).catch((err) => { // Error response
-        console.log(err)
-        const response = {
-          statusCode: 500,
-          headers: {
-            'Access-Control-Allow-Origin': '*'
-          },
-          body: JSON.stringify({
-            error: err.message
-          })
-        }
-        callback(null, response)
     })
+    const imageJson = await image.json()
+    console.log(imageJson)
+    const response = {
+        statusCode: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify({
+            message: imageJson
+        })
+    }
+    callback(null, response)
+    // .then((res) => fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+    //         method: 'POST',
+    //         headers: pwintyHeaders,
+    //         body: JSON.stringify({ 
+    //             status: 'Submitted'
+    //         })
+    //     }))
+        
+    // .then((res) => {
+            
+    //     }).catch((err) => { // Error response
+    //     console.log(err)
+    //     const response = {
+    //       statusCode: 500,
+    //       headers: {
+    //         'Access-Control-Allow-Origin': '*'
+    //       },
+    //       body: JSON.stringify({
+    //         error: err.message
+    //       })
+    //     }
+    //     callback(null, response)
+    // })
 }

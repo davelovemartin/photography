@@ -50,15 +50,15 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 // }
 
 
-// exports.modifyWebpackConfig = ({config}) => {
+exports.modifyWebpackConfig = ({config}) => {
 
-//   config.merge({
-//     entry: './src/lambda-src/pwinty_order.js',
-//     output: {
-//       path: __dirname + '/src/lambda',
-//       filename: 'pwinty_order.js'
-//     }
-//   })
+  config.merge({
+    entry: './src/lambda-src/pwinty_order.js',
+    output: {
+      path: __dirname + '/src/lambda',
+      filename: 'pwinty_order.js'
+    }
+  })
 
-//   return config
-// }
+  return config
+}
