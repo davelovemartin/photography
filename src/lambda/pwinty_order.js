@@ -104,23 +104,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	            })
 	        });
 	        var imageJson = image.json();
-	        var sbmt = function sbmt(imageJson) {
-	            return fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-	                method: 'POST',
-	                headers: pwintyHeaders,
-	                body: JSON.stringify({
-	                    status: 'Submitted'
-	                })
-	            });
-	        };
-	        var sbmtJson = yield sbmt.json();
+	
 	        var response = {
 	            statusCode: 200,
 	            headers: {
 	                'Access-Control-Allow-Origin': '*'
 	            },
 	            body: JSON.stringify({
-	                message: sbmtJson
+	                message: imageJson
 	            })
 	        };
 	        callback(null, response);
