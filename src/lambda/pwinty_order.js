@@ -101,39 +101,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        var imageJson = yield image.json();
 	        console.log(imageJson);
-	        var response = {
-	            statusCode: 200,
-	            headers: {
-	                'Access-Control-Allow-Origin': '*'
-	            },
-	            body: JSON.stringify({
-	                message: imageJson
-	            })
-	        };
-	        callback(null, response);
-	        // .then((res) => fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-	        //         method: 'POST',
-	        //         headers: pwintyHeaders,
-	        //         body: JSON.stringify({ 
-	        //             status: 'Submitted'
-	        //         })
-	        //     }))
 	
-	        // .then((res) => {
+	        if (imageJson.statusText === "OK") {
+	            var sbmt = fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+	                method: 'POST',
+	                headers: pwintyHeaders,
+	                body: JSON.stringify({
+	                    status: 'Submitted'
+	                })
+	            });
+	            var sbmtJson = yield sbmt.json();
+	            var response = {
+	                statusCode: 200,
+	                headers: {
+	                    'Access-Control-Allow-Origin': '*'
+	                },
+	                body: JSON.stringify({
+	                    message: sbmtJson
+	                })
+	            };
+	            callback(null, response);
+	        } else {
 	
-	        //     }).catch((err) => { // Error response
-	        //     console.log(err)
-	        //     const response = {
-	        //       statusCode: 500,
-	        //       headers: {
-	        //         'Access-Control-Allow-Origin': '*'
-	        //       },
-	        //       body: JSON.stringify({
-	        //         error: err.message
-	        //       })
-	        //     }
-	        //     callback(null, response)
-	        // })
+	            console.log(err);
+	            var _response = {
+	                statusCode: 500,
+	                headers: {
+	                    'Access-Control-Allow-Origin': '*'
+	                },
+	                body: JSON.stringify({
+	                    error: err.message
+	                })
+	            };
+	            callback(null, _response);
+	        }
 	    });
 	
 	    return function (_x, _x2, _x3) {

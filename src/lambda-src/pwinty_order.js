@@ -41,37 +41,38 @@ module.exports.handler = async (event, context, callback) => {
     })
     const imageJson = await image.json()
     console.log(imageJson)
-    const response = {
-        statusCode: 200,
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({
-            message: imageJson
+
+    if (imageJson.statusText === "OK") {
+        const sbmt = fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+            method: 'POST',
+            headers: pwintyHeaders,
+            body: JSON.stringify({ 
+                status: 'Submitted'
+            })
         })
+        const sbmtJson = await sbmt.json()
+        const response = {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                message: sbmtJson
+            })
+        }
+        callback(null, response)
+    } else {
+
+        console.log(err)
+        const response = {
+          statusCode: 500,
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          },
+          body: JSON.stringify({
+            error: err.message
+          })
+        }
+        callback(null, response)
     }
-    callback(null, response)
-    // .then((res) => fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-    //         method: 'POST',
-    //         headers: pwintyHeaders,
-    //         body: JSON.stringify({ 
-    //             status: 'Submitted'
-    //         })
-    //     }))
-        
-    // .then((res) => {
-            
-    //     }).catch((err) => { // Error response
-    //     console.log(err)
-    //     const response = {
-    //       statusCode: 500,
-    //       headers: {
-    //         'Access-Control-Allow-Origin': '*'
-    //       },
-    //       body: JSON.stringify({
-    //         error: err.message
-    //       })
-    //     }
-    //     callback(null, response)
-    // })
 }
