@@ -28,9 +28,11 @@ module.exports.handler = async (event, context, callback) => {
             })
         });
         const orderJson = await order.json()
+        // find image
         const assetUrl = await fetch('https://cdn.contentful.com/spaces/' + process.env.CONTENTFUL_SPACE_ID + '/assets/' + stripeOrder.assetId +'?access_token=' + process.env.CONTENTFUL_ACCESS_TOKEN)
         const assetJson = await assetUrl.json()
-        const image = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
+        // add image to order
+        return fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/images', {
             method: 'POST',
             headers: pwintyHeaders,
             body: JSON.stringify({ 
@@ -40,30 +42,27 @@ module.exports.handler = async (event, context, callback) => {
                 copies: 1,
                 attributes: { FrameColour: 'white' }
             })
-        })
-        const imageJson = await image.json()
-        console.log(imageJson)
-
-        const sbmt = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-            method: 'POST',
-            headers: pwintyHeaders,
-            body: JSON.stringify({ 
-                status: 'Submitted'
+        }).then(() => {
+            const sbmt = fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+                method: 'POST',
+                headers: pwintyHeaders,
+                body: JSON.stringify({ 
+                    status: 'Submitted'
+                })
             })
+            const sbmtJson = await sbmt.json()
+            let response = {
+                statusCode: 200,
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                },
+                body: JSON.stringify({
+                    message: sbmtJson
+                })
+            }
+            callback(null, response)
         })
-        const sbmtJson = await sbmt.json()
-        let response = {
-            statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-                message: sbmtJson
-            })
-        }
-        callback(null, response)
-    } 
-    catch {
+    } catch {
         let response = {
             statusCode: 500,
             headers: {
