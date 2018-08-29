@@ -38,13 +38,13 @@ module.exports.handler = async (event, context, callback) => {
             copies: 1,
             attributes: { FrameColour: 'white' }
         })
-    }).then((orderJson) => {
+    }).then((orderJson, pwintyHeaders) => {
         const status = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/SubmissionStatus', {
             method: 'GET',
             headers: pwintyHeaders
         })
-        const statusJson = await statusUrl.json()
-    }).then((orderJson) => {
+        const statusJson = await status.json()
+    }).then((orderJson, pwintyHeaders) => {
         const submit = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
             method: 'POST',
             headers: pwintyHeaders,
@@ -52,7 +52,7 @@ module.exports.handler = async (event, context, callback) => {
                 status: 'Submitted'
             })
         })
-        const submitJson = await submitUrl.json()
+        const submitJson = await submit.json()
         const response = {
             statusCode: 200,
             headers: {
@@ -64,7 +64,6 @@ module.exports.handler = async (event, context, callback) => {
         }
         callback(null, response)
     })
-    
     .catch((err) => { // Error response
         console.log(err)
         const response = {
