@@ -101,14 +101,28 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	        var imageJson = yield image.json();
 	        console.log(imageJson);
-	
+	        var check = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/SubmissionStatus', {
+	            method: 'GET',
+	            headers: pwintyHeaders
+	        });
+	        var checkJson = yield check.json();
+	        console.log(checkJson);
+	        var submit = yield fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+	            method: 'POST',
+	            headers: pwintyHeaders,
+	            body: JSON.stringify({
+	                status: 'Submitted'
+	            })
+	        });
+	        var submitJson = yield submit.json();
+	        console.log(submitJson);
 	        var response = {
 	            statusCode: 200,
 	            headers: {
 	                'Access-Control-Allow-Origin': '*'
 	            },
 	            body: JSON.stringify({
-	                message: imageJson
+	                message: submitJson
 	            })
 	        };
 	        callback(null, response);

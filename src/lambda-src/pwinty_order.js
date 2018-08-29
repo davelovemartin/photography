@@ -41,14 +41,28 @@ module.exports.handler = async (event, context, callback) => {
     })
     const imageJson = await image.json()
     console.log(imageJson)
-
+    const check = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/SubmissionStatus', {
+        method: 'GET',
+        headers: pwintyHeaders
+    })
+    const checkJson = await check.json()
+    console.log(checkJson)
+    const submit = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+        method: 'POST',
+        headers: pwintyHeaders,
+        body: JSON.stringify({ 
+            status: 'Submitted'
+        })
+    })
+    const submitJson = await submit.json()
+    console.log(submitJson)
     const response = {
         statusCode: 200,
         headers: {
             'Access-Control-Allow-Origin': '*'
         },
         body: JSON.stringify({
-            message: imageJson
+            message: submitJson
         })
     }
     callback(null, response)
