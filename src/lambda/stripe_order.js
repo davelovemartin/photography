@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	'use strict';
 	
-	var stripe = __webpack_require__(1)((STRIPE_SECRET_KEY));
+	var stripe = __webpack_require__(1)((process.env.STRIPE_SECRET_KEY));
 	
 	module.exports.handler = function (event, context, callback) {
 	  var requestBody = JSON.parse(event.body);
