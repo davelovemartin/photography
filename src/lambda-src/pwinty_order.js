@@ -51,7 +51,8 @@ module.exports.handler = async (event, context, callback) => {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                message: imageJson
+                message: imageJson,
+                id: orderJson.data.id
             })
         }
         callback(null, response)

@@ -51,6 +51,13 @@ class CustomStripeCheckout extends React.Component {
       })
       const data = await res.json()
       console.log(data)
+      // const result = await fetch(process.env.PWINTY_SUBMIT_URL, {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     id: data.id
+      //   })
+      // })
+      // const confirm = await result.json()
       navigateTo('/order')
 
     } catch (err) {

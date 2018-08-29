@@ -62,3 +62,16 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
 
 //   return config
 // }
+
+// exports.modifyWebpackConfig = ({config}) => {
+
+//   config.merge({
+//     entry: './src/lambda-src/pwinty_confirm.js',
+//     output: {
+//       path: __dirname + '/src/lambda',
+//       filename: 'pwinty_confirm.js'
+//     }
+//   })
+
+//   return config
+// }
