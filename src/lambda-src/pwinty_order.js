@@ -38,35 +38,46 @@ module.exports.handler = async (event, context, callback) => {
             copies: 1,
             attributes: { FrameColour: 'white' }
         })
-    })
-    const imageJson = await image.json()
-    console.log(imageJson)
-    const check = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/SubmissionStatus', {
-        method: 'GET',
-        headers: pwintyHeaders
-    })
-    const checkJson = await check.json()
-    console.log(checkJson)
-    const submit = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
-        method: 'POST',
-        headers: pwintyHeaders,
-        body: JSON.stringify({ 
-            status: 'Submitted'
+    }).then((orderJson) => {
+        const status = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/SubmissionStatus', {
+            method: 'GET',
+            headers: pwintyHeaders
         })
+        const statusJson = await statusUrl.json()
+    }).then((orderJson) => {
+        const submit = await fetch('https://sandbox.pwinty.com/v3.0/orders/' + orderJson.data.id + '/status', {
+            method: 'POST',
+            headers: pwintyHeaders,
+            body: JSON.stringify({ 
+                status: 'Submitted'
+            })
+        })
+        const submitJson = await submitUrl.json()
+        const response = {
+            statusCode: 200,
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                message: submitJson
+            })
+        }
+        callback(null, response)
     })
-    const submitJson = await submit.json()
-    console.log(submitJson)
-    const response = {
-        statusCode: 200,
-        headers: {
+    
+    .catch((err) => { // Error response
+        console.log(err)
+        const response = {
+          statusCode: 500,
+          headers: {
             'Access-Control-Allow-Origin': '*'
-        },
-        body: JSON.stringify({
-            message: submitJson
-        })
-    }
-    callback(null, response)
-
+          },
+          body: JSON.stringify({
+            error: err.message
+          })
+        }
+        callback(null, response)
+      })
     // 
     // return pwinty.createOrder(stripeOrder, function (err, order) {  
         

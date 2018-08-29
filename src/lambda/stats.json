@@ -3,10 +3,6 @@
     "commons": [
       "pwinty_order.js",
       "pwinty_order.js.map"
-    ],
-    "main": [
-      "pwinty_order.js",
-      "pwinty_order.js.map"
     ]
   }
 }
