@@ -324,7 +324,7 @@ const data = {
       id: 'a3',
       title: 'A3 Print',
       description: 'An A3-sized print (297mm x 420mm)',
-      price: 0001
+      price: 1
     }
   ],
   frame: [
